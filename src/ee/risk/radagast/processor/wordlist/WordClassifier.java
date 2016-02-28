@@ -47,7 +47,7 @@ public class WordClassifier extends GenericClassifier<Word> {
 	@Override
 	public void classify(Word word, Result<Word> result) {
 		if (result instanceof WordListResult) {
-			((WordListResult)result).value = 1;
+			((WordListResult)result).value = wordList.getOrDefault(word.getValue(), 0);
 			log.debug("Classifying word %s", word.getValue());
 		}
 	}
