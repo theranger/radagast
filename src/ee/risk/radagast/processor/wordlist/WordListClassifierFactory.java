@@ -18,33 +18,42 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.tokenizer;
+package ee.risk.radagast.processor.wordlist;
 
 import ee.risk.radagast.classifier.Classifier;
 import ee.risk.radagast.classifier.ClassifierFactory;
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.result.ResultFactory;
+import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.tokenizer.Paragraph;
+import ee.risk.radagast.tokenizer.Sentence;
+import ee.risk.radagast.tokenizer.Word;
 
-public class Sentence extends Token<Sentence, Word> {
+import java.io.IOException;
 
-	public static final String separator = "[.!?]";
+public class WordListClassifierFactory implements ClassifierFactory {
 
-	public Sentence(String value) {
-		super(value);
+	Classifier<Word> wordClassifier;
 
-		String[] words = value.split(Word.separator);
-		for(String word : words) {
-			tokens.add(new Word(word));
-		}
+	public WordListClassifierFactory(String wordFilePath) throws IOException {
+		wordClassifier = new WordClassifier(wordFilePath);
 	}
 
 	@Override
-	public Result<Sentence> createResult(ResultFactory resultFactory) {
-		return resultFactory.createSentenceResult(this);
+	public Classifier<Word> createWordClassifier() {
+		return wordClassifier;
 	}
 
 	@Override
-	public Classifier<Sentence> createClassifier(ClassifierFactory classifierFactory) {
-		return classifierFactory.createSentenceClassifier();
+	public Classifier<Sentence> createSentenceClassifier() {
+		return new GenericClassifier<>();
+	}
+
+	@Override
+	public Classifier<Paragraph> createParagraphClassifier() {
+		return new GenericClassifier<>();
+	}
+
+	@Override
+	public Classifier<Corpus> createCorpusClassifier() {
+		return new GenericClassifier<>();
 	}
 }

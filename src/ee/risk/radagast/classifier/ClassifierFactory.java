@@ -18,33 +18,16 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.tokenizer;
+package ee.risk.radagast.classifier;
 
-import ee.risk.radagast.classifier.Classifier;
-import ee.risk.radagast.classifier.ClassifierFactory;
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.result.ResultFactory;
+import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.tokenizer.Paragraph;
+import ee.risk.radagast.tokenizer.Sentence;
+import ee.risk.radagast.tokenizer.Word;
 
-public class Sentence extends Token<Sentence, Word> {
-
-	public static final String separator = "[.!?]";
-
-	public Sentence(String value) {
-		super(value);
-
-		String[] words = value.split(Word.separator);
-		for(String word : words) {
-			tokens.add(new Word(word));
-		}
-	}
-
-	@Override
-	public Result<Sentence> createResult(ResultFactory resultFactory) {
-		return resultFactory.createSentenceResult(this);
-	}
-
-	@Override
-	public Classifier<Sentence> createClassifier(ClassifierFactory classifierFactory) {
-		return classifierFactory.createSentenceClassifier();
-	}
+public interface ClassifierFactory {
+	Classifier<Word> createWordClassifier();
+	Classifier<Sentence> createSentenceClassifier();
+	Classifier<Paragraph> createParagraphClassifier();
+	Classifier<Corpus> createCorpusClassifier();
 }

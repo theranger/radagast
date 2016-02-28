@@ -18,33 +18,15 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.tokenizer;
+package ee.risk.radagast.processor.wordlist;
 
-import ee.risk.radagast.classifier.Classifier;
-import ee.risk.radagast.classifier.ClassifierFactory;
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.result.ResultFactory;
+import ee.risk.radagast.processor.Processor;
 
-public class Sentence extends Token<Sentence, Word> {
+import java.io.IOException;
 
-	public static final String separator = "[.!?]";
+public class WordListProcessor extends Processor {
 
-	public Sentence(String value) {
-		super(value);
-
-		String[] words = value.split(Word.separator);
-		for(String word : words) {
-			tokens.add(new Word(word));
-		}
-	}
-
-	@Override
-	public Result<Sentence> createResult(ResultFactory resultFactory) {
-		return resultFactory.createSentenceResult(this);
-	}
-
-	@Override
-	public Classifier<Sentence> createClassifier(ClassifierFactory classifierFactory) {
-		return classifierFactory.createSentenceClassifier();
+	public WordListProcessor(String wordFilePath) throws IOException {
+		super(new WordListClassifierFactory(wordFilePath), new WordListResultFactory());
 	}
 }

@@ -18,33 +18,28 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.tokenizer;
+package ee.risk.radagast.processor.wordlist;
 
-import ee.risk.radagast.classifier.Classifier;
-import ee.risk.radagast.classifier.ClassifierFactory;
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.result.ResultFactory;
+import ee.risk.radagast.tokenizer.Word;
 
-public class Sentence extends Token<Sentence, Word> {
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
-	public static final String separator = "[.!?]";
+public class WordClassifier extends GenericClassifier<Word> {
+	private final Map<String, Integer> wordList = new HashMap<>();
 
-	public Sentence(String value) {
-		super(value);
+	public WordClassifier(String wordListFile) throws IOException {
+		String line;
 
-		String[] words = value.split(Word.separator);
-		for(String word : words) {
-			tokens.add(new Word(word));
+		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(wordListFile))) {
+			while ((line = bufferedReader.readLine()) != null) {
+				String[] values = line.split(",");
+				if (values.length < 2) continue;
+				wordList.put(values[0], Integer.valueOf(values[1]));
+			}
 		}
-	}
-
-	@Override
-	public Result<Sentence> createResult(ResultFactory resultFactory) {
-		return resultFactory.createSentenceResult(this);
-	}
-
-	@Override
-	public Classifier<Sentence> createClassifier(ClassifierFactory classifierFactory) {
-		return classifierFactory.createSentenceClassifier();
 	}
 }
