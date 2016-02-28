@@ -20,6 +20,7 @@
 
 package ee.risk.radagast.processor.wordlist;
 
+import ee.risk.radagast.classifier.GenericClassifier;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Word;
 

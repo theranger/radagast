@@ -22,6 +22,7 @@ package ee.risk.radagast.processor.wordlist;
 
 import ee.risk.radagast.classifier.Classifier;
 import ee.risk.radagast.classifier.ClassifierFactory;
+import ee.risk.radagast.classifier.GenericClassifier;
 import ee.risk.radagast.tokenizer.Corpus;
 import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Sentence;

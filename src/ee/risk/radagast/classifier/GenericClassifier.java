@@ -18,9 +18,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.wordlist;
+package ee.risk.radagast.classifier;
 
-import ee.risk.radagast.classifier.Classifier;
 import ee.risk.radagast.log.Log;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
