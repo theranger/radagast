@@ -20,6 +20,7 @@
 
 package ee.risk.radagast.processor.wordlist;
 
+import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Word;
 
 import java.io.BufferedReader;
@@ -40,6 +41,14 @@ public class WordClassifier extends GenericClassifier<Word> {
 				if (values.length < 2) continue;
 				wordList.put(values[0], Integer.valueOf(values[1]));
 			}
+		}
+	}
+
+	@Override
+	public void classify(Word word, Result<Word> result) {
+		if (result instanceof WordListResult) {
+			((WordListResult)result).value = 1;
+			log.debug("Classifying word %s", word.getValue());
 		}
 	}
 }

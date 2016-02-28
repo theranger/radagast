@@ -22,7 +22,9 @@ package ee.risk.radagast.result;
 
 import ee.risk.radagast.tokenizer.Token;
 
+import java.util.List;
+
 public interface Result<T extends Token> {
-	void aggregate(Result<T> result);
+	<S extends Token> void aggregate(List<Result<S>> result);
 	void reduce(Result result);
 }

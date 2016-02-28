@@ -24,15 +24,19 @@ import ee.risk.radagast.log.Log;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
 
+import java.util.List;
+
 public class WordListResult<T extends Token> implements Result<T> {
 	private static final Log log = Log.getLogger(Log.Level.DEBUG);
-	private int value = 0;
+	public int value = 0;
 
 	@Override
-	public void aggregate(Result<T> result) {
-		if (result instanceof WordListResult) {
-			value += ((WordListResult) result).value;
-		}
+	public <S extends Token> void aggregate(List<Result<S>> results) {
+		results.stream()
+				.filter(result -> result instanceof WordListResult)
+				.forEach(result -> value += ((WordListResult) result).value);
+
+		log.debug("Result: %d", value);
 	}
 
 	@Override

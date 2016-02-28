@@ -31,6 +31,5 @@ public class GenericClassifier<T extends Token> implements Classifier<T> {
 	@Override
 	public void classify(T token, Result<T> result) {
 		log.debug("Parsing token %s", token.getValue());
-		token.addResult(result);
 	}
 }

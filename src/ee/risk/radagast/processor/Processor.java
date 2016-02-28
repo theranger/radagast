@@ -44,6 +44,8 @@ public abstract class Processor {
 		Classifier<Corpus> classifier = corpus.createClassifier(classifierFactory);
 		Result<Corpus> result = corpus.createResult(resultFactory);
 		classifier.classify(corpus, result);
+		corpus.getTokens().forEach(paragraph -> result.aggregate(paragraph.getResults()));
+		corpus.addResult(result);
 	}
 
 	private void process(Paragraph paragraph) {
@@ -51,6 +53,8 @@ public abstract class Processor {
 		Classifier<Paragraph> classifier = paragraph.createClassifier(classifierFactory);
 		Result<Paragraph> result = paragraph.createResult(resultFactory);
 		classifier.classify(paragraph, result);
+		paragraph.getTokens().forEach(sentence -> result.aggregate(sentence.getResults()));
+		paragraph.addResult(result);
 	}
 
 	private void process(Sentence sentence) {
@@ -58,11 +62,14 @@ public abstract class Processor {
 		Classifier<Sentence> classifier = sentence.createClassifier(classifierFactory);
 		Result<Sentence> result = sentence.createResult(resultFactory);
 		classifier.classify(sentence, result);
+		sentence.getTokens().forEach(word -> result.aggregate(word.getResults()));
+		sentence.addResult(result);
 	}
 
 	private void process(Word word) {
 		Classifier<Word> classifier = word.createClassifier(classifierFactory);
 		Result<Word> result = word.createResult(resultFactory);
 		classifier.classify(word, result);
+		word.addResult(result);
 	}
 }

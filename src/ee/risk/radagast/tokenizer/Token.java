@@ -30,7 +30,7 @@ import java.util.ArrayList;
 public abstract class Token<T extends Token, S extends Token> {
 
 	protected final ArrayList<S> tokens = new ArrayList<>();
-	protected final ArrayList<Result> results = new ArrayList<>();
+	protected final ArrayList<Result<T>> results = new ArrayList<>();
 	protected final String value;
 
 	public Token(String value) {
@@ -41,11 +41,11 @@ public abstract class Token<T extends Token, S extends Token> {
 		return tokens;
 	}
 
-	public ArrayList<Result> getResults() {
+	public ArrayList<Result<T>> getResults() {
 		return results;
 	}
 
-	public void addResult(Result result) {
+	public void addResult(Result<T> result) {
 		results.add(result);
 	}
 
