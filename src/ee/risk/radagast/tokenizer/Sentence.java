@@ -40,7 +40,7 @@ public class Sentence extends Token<Sentence, Word> {
 
 	@Override
 	public Result<Sentence> createResult(ResultFactory resultFactory) {
-		return resultFactory.createSentenceResult(this);
+		return resultFactory.createSentenceResult();
 	}
 
 	@Override

@@ -35,7 +35,7 @@ public class Word extends Token<Word, Word> {
 
 	@Override
 	public Result<Word> createResult(ResultFactory resultFactory) {
-		return resultFactory.createWordResult(this);
+		return resultFactory.createWordResult();
 	}
 
 	@Override

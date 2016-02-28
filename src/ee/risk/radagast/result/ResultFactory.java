@@ -20,11 +20,14 @@
 
 package ee.risk.radagast.result;
 
-import ee.risk.radagast.tokenizer.*;
+import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.tokenizer.Paragraph;
+import ee.risk.radagast.tokenizer.Sentence;
+import ee.risk.radagast.tokenizer.Word;
 
 public interface ResultFactory {
-	Result<Word> createWordResult(Token token);
-	Result<Sentence> createSentenceResult(Token token);
-	Result<Paragraph> createParagraphResult(Token token);
-	Result<Corpus> createCorpusResult(Token token);
+	Result<Word> createWordResult();
+	Result<Sentence> createSentenceResult();
+	Result<Paragraph> createParagraphResult();
+	Result<Corpus> createCorpusResult();
 }

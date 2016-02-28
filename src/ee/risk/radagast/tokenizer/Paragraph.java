@@ -40,7 +40,7 @@ public class Paragraph extends Token<Paragraph, Sentence> {
 
 	@Override
 	public Result<Paragraph> createResult(ResultFactory resultFactory) {
-		return resultFactory.createParagraphResult(this);
+		return resultFactory.createParagraphResult();
 	}
 
 	@Override

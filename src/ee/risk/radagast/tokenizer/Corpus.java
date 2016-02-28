@@ -38,7 +38,7 @@ public class Corpus extends Token<Corpus, Paragraph> {
 
 	@Override
 	public Result<Corpus> createResult(ResultFactory resultFactory) {
-		return resultFactory.createCorpusResult(this);
+		return resultFactory.createCorpusResult();
 	}
 
 	@Override
