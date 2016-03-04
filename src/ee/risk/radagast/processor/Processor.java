@@ -29,6 +29,7 @@ import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Sentence;
 import ee.risk.radagast.tokenizer.Word;
 
+@SuppressWarnings("unchecked")
 public abstract class Processor<R extends Result> {
 
 	private final ResultFactory<R> resultFactory;
