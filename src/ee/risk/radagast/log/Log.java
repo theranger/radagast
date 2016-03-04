@@ -50,6 +50,7 @@ public class Log {
 		// Add console handler to any level
 		ConsoleHandler consoleHandler = new ConsoleHandler();
 		consoleHandler.setLevel(logger.getLevel());
+		consoleHandler.setFormatter(new ConsoleFormatter());
 		logger.addHandler(consoleHandler);
 	}
 
