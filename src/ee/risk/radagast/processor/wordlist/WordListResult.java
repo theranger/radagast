@@ -22,13 +22,15 @@ package ee.risk.radagast.processor.wordlist;
 
 import ee.risk.radagast.log.Log;
 import ee.risk.radagast.result.Result;
+import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.tokenizer.Token;
 
-public class WordListResult implements Result<WordListResult> {
+public class WordListResult<T extends Token> implements Result<T, WordListResult> {
 	protected Log log = Log.getLogger(Log.Level.DEBUG);
 	public int value = 0;
 
 	@Override
-	public void aggregate(WordListResult result) {
+	public void aggregate(T token, WordListResult result) {
 		log.debug("Result: %d, %d", value, result.value);
 		value += result.value;
 	}
@@ -38,10 +40,10 @@ public class WordListResult implements Result<WordListResult> {
 
 	}
 
-	static class WordListCorpusResult extends WordListResult {
+	static class WordListCorpusResult extends WordListResult<Corpus> {
 
 		@Override
-		public void aggregate(WordListResult result) {
+		public void aggregate(Corpus corpus, WordListResult result) {
 			value += result.value;
 			log.debug("Corpus result: %.2f", (double)value / 100);
 		}

@@ -37,7 +37,7 @@ public class Corpus extends Token<Corpus, Paragraph> {
 	}
 
 	@Override
-	public <R extends Result<R>> R createResult(ResultFactory<R> resultFactory) {
+	public <R extends Result> Result<Corpus, R> createResult(ResultFactory<R> resultFactory) {
 		return resultFactory.createCorpusResult();
 	}
 

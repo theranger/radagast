@@ -29,7 +29,7 @@ import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Sentence;
 import ee.risk.radagast.tokenizer.Word;
 
-public abstract class Processor<R extends Result<R>> {
+public abstract class Processor<R extends Result> {
 
 	private final ResultFactory<R> resultFactory;
 	private final ClassifierFactory<R> classifierFactory;
@@ -42,34 +42,45 @@ public abstract class Processor<R extends Result<R>> {
 	public void process(Corpus corpus) {
 		corpus.getTokens().forEach(this::process);
 		Classifier<Corpus, R> classifier = corpus.createClassifier(classifierFactory);
-		R result = corpus.createResult(resultFactory);
-		classifier.classify(corpus, result);
-		corpus.getTokens().forEach(paragraph -> paragraph.getResults(result).forEach(result::aggregate));
+		Result<Corpus, R> result = corpus.createResult(resultFactory);
+		classifier.classify(corpus, (R)result);
+
+		for(Paragraph p : corpus.getTokens()) {
+			p.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(corpus, (R) r));
+		}
+
 		corpus.addResult(result);
 	}
 
 	private void process(Paragraph paragraph) {
 		paragraph.getTokens().forEach(this::process);
 		Classifier<Paragraph, R> classifier = paragraph.createClassifier(classifierFactory);
-		R result = paragraph.createResult(resultFactory);
-		classifier.classify(paragraph, result);
-		paragraph.getTokens().forEach(sentence -> sentence.getResults(result).forEach(result::aggregate));
+		Result<Paragraph, R> result = paragraph.createResult(resultFactory);
+		classifier.classify(paragraph, (R)result);
+
+		for(Sentence s : paragraph.getTokens()) {
+			s.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(paragraph, (R) r));
+		}
 		paragraph.addResult(result);
 	}
 
 	private void process(Sentence sentence) {
 		sentence.getTokens().forEach(this::process);
 		Classifier<Sentence, R> classifier = sentence.createClassifier(classifierFactory);
-		R result = sentence.createResult(resultFactory);
-		classifier.classify(sentence, result);
-		sentence.getTokens().forEach(word -> word.getResults(result).forEach(result::aggregate));
+		Result<Sentence, R> result = sentence.createResult(resultFactory);
+		classifier.classify(sentence, (R)result);
+
+		for(Word w : sentence.getTokens()) {
+			w.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(sentence, (R) r));
+		}
+
 		sentence.addResult(result);
 	}
 
 	private void process(Word word) {
 		Classifier<Word, R> classifier = word.createClassifier(classifierFactory);
-		R result = word.createResult(resultFactory);
-		classifier.classify(word, result);
+		Result<Word, R> result = word.createResult(resultFactory);
+		classifier.classify(word, (R)result);
 		word.addResult(result);
 	}
 }

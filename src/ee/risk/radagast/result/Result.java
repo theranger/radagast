@@ -20,7 +20,9 @@
 
 package ee.risk.radagast.result;
 
-public interface Result<R extends Result> {
-	void aggregate(R result);
+import ee.risk.radagast.tokenizer.Token;
+
+public interface Result<T extends Token, R extends Result> {
+	void aggregate(T token, R result);
 	void reduce(Result result);
 }

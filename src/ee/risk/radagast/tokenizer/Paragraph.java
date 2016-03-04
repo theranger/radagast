@@ -39,7 +39,7 @@ public class Paragraph extends Token<Paragraph, Sentence> {
 	}
 
 	@Override
-	public <R extends Result<R>> R createResult(ResultFactory<R> resultFactory) {
+	public <R extends Result> Result<Paragraph, R> createResult(ResultFactory<R> resultFactory) {
 		return resultFactory.createParagraphResult();
 	}
 

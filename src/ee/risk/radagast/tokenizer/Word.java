@@ -34,7 +34,7 @@ public class Word extends Token<Word, Word> {
 	}
 
 	@Override
-	public <R extends Result<R>> R createResult(ResultFactory<R> resultFactory) {
+	public <R extends Result> Result<Word, R> createResult(ResultFactory<R> resultFactory) {
 		return resultFactory.createWordResult();
 	}
 

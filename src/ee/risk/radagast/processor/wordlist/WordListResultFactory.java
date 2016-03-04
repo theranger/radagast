@@ -21,26 +21,30 @@
 package ee.risk.radagast.processor.wordlist;
 
 import ee.risk.radagast.result.ResultFactory;
+import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.tokenizer.Paragraph;
+import ee.risk.radagast.tokenizer.Sentence;
+import ee.risk.radagast.tokenizer.Word;
 
 public class WordListResultFactory implements ResultFactory<WordListResult> {
 
 	@Override
-	public WordListResult createWordResult() {
-		return new WordListResult();
+	public WordListResult<Word> createWordResult() {
+		return new WordListResult<>();
 	}
 
 	@Override
-	public WordListResult createSentenceResult() {
-		return new WordListResult();
+	public WordListResult<Sentence> createSentenceResult() {
+		return new WordListResult<>();
 	}
 
 	@Override
-	public WordListResult createParagraphResult() {
-		return new WordListResult();
+	public WordListResult<Paragraph> createParagraphResult() {
+		return new WordListResult<>();
 	}
 
 	@Override
-	public WordListResult createCorpusResult() {
+	public WordListResult<Corpus> createCorpusResult() {
 		return new WordListResult.WordListCorpusResult();
 	}
 }

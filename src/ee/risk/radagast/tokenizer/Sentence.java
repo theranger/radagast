@@ -39,7 +39,7 @@ public class Sentence extends Token<Sentence, Word> {
 	}
 
 	@Override
-	public <R extends Result<R>> R createResult(ResultFactory<R> resultFactory) {
+	public <R extends Result> Result<Sentence, R> createResult(ResultFactory<R> resultFactory) {
 		return resultFactory.createSentenceResult();
 	}
 
