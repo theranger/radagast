@@ -24,11 +24,11 @@ import ee.risk.radagast.log.Log;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
 
-public class GenericClassifier<T extends Token> implements Classifier<T> {
+public class GenericClassifier<T extends Token, R extends Result> implements Classifier<T, R> {
 	protected static final Log log = Log.getLogger(Log.Level.DEBUG);
 
 	@Override
-	public void classify(T token, Result<T> result) {
+	public void classify(T token, R result) {
 		log.debug("Parsing token %s", token.getValue());
 	}
 }

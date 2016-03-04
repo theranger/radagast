@@ -20,8 +20,7 @@
 
 package ee.risk.radagast.processor.wordlist;
 
-import ee.risk.radagast.classifier.GenericClassifier;
-import ee.risk.radagast.result.Result;
+import ee.risk.radagast.classifier.Classifier;
 import ee.risk.radagast.tokenizer.Word;
 
 import java.io.BufferedReader;
@@ -30,7 +29,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class WordClassifier extends GenericClassifier<Word> {
+public class WordClassifier implements Classifier<Word, WordListResult> {
 	private final Map<String, Integer> wordList = new HashMap<>();
 
 	public WordClassifier(String wordListFile) throws IOException {
@@ -45,11 +44,7 @@ public class WordClassifier extends GenericClassifier<Word> {
 		}
 	}
 
-	@Override
-	public void classify(Word word, Result<Word> result) {
-		if (result instanceof WordListResult) {
-			((WordListResult)result).value = wordList.getOrDefault(word.getValue(), 0);
-			log.debug("Classifying word %s", word.getValue());
-		}
+	public void classify(Word word, WordListResult result) {
+		result.value = wordList.getOrDefault(word.getValue(), 0);
 	}
 }

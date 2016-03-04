@@ -22,25 +22,28 @@ package ee.risk.radagast.processor.wordlist;
 
 import ee.risk.radagast.log.Log;
 import ee.risk.radagast.result.Result;
-import ee.risk.radagast.tokenizer.Token;
 
-import java.util.List;
-
-public class WordListResult<T extends Token> implements Result<T> {
-	private static final Log log = Log.getLogger(Log.Level.DEBUG);
+public class WordListResult implements Result<WordListResult> {
+	protected Log log = Log.getLogger(Log.Level.DEBUG);
 	public int value = 0;
 
 	@Override
-	public <S extends Token> void aggregate(List<Result<S>> results) {
-		results.stream()
-				.filter(result -> result instanceof WordListResult)
-				.forEach(result -> value += ((WordListResult) result).value);
-
-		log.debug("Result: %d", value);
+	public void aggregate(WordListResult result) {
+		log.debug("Result: %d, %d", value, result.value);
+		value += result.value;
 	}
 
 	@Override
 	public void reduce(Result result) {
 
+	}
+
+	static class WordListCorpusResult extends WordListResult {
+
+		@Override
+		public void aggregate(WordListResult result) {
+			value += result.value;
+			log.debug("Corpus result: %.2f", (double)value / 100);
+		}
 	}
 }

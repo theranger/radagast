@@ -39,12 +39,12 @@ public class Paragraph extends Token<Paragraph, Sentence> {
 	}
 
 	@Override
-	public Result<Paragraph> createResult(ResultFactory resultFactory) {
+	public <R extends Result<R>> R createResult(ResultFactory<R> resultFactory) {
 		return resultFactory.createParagraphResult();
 	}
 
 	@Override
-	public Classifier<Paragraph> createClassifier(ClassifierFactory classifierFactory) {
+	public <R extends Result> Classifier<Paragraph, R> createClassifier(ClassifierFactory<R> classifierFactory) {
 		return classifierFactory.createParagraphClassifier();
 	}
 }

@@ -20,14 +20,9 @@
 
 package ee.risk.radagast.result;
 
-import ee.risk.radagast.tokenizer.Corpus;
-import ee.risk.radagast.tokenizer.Paragraph;
-import ee.risk.radagast.tokenizer.Sentence;
-import ee.risk.radagast.tokenizer.Word;
-
-public interface ResultFactory {
-	Result<Word> createWordResult();
-	Result<Sentence> createSentenceResult();
-	Result<Paragraph> createParagraphResult();
-	Result<Corpus> createCorpusResult();
+public interface ResultFactory<R extends Result<R>> {
+	R createWordResult();
+	R createSentenceResult();
+	R createParagraphResult();
+	R createCorpusResult();
 }

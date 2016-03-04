@@ -24,7 +24,7 @@ import ee.risk.radagast.processor.Processor;
 
 import java.io.IOException;
 
-public class WordListProcessor extends Processor {
+public class WordListProcessor extends Processor<WordListResult> {
 
 	public WordListProcessor(String wordFilePath) throws IOException {
 		super(new WordListClassifierFactory(wordFilePath), new WordListResultFactory());

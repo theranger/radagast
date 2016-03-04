@@ -30,31 +30,31 @@ import ee.risk.radagast.tokenizer.Word;
 
 import java.io.IOException;
 
-public class WordListClassifierFactory implements ClassifierFactory {
+public class WordListClassifierFactory implements ClassifierFactory<WordListResult> {
 
-	Classifier<Word> wordClassifier;
+	Classifier<Word, WordListResult> wordClassifier;
 
 	public WordListClassifierFactory(String wordFilePath) throws IOException {
 		wordClassifier = new WordClassifier(wordFilePath);
 	}
 
 	@Override
-	public Classifier<Word> createWordClassifier() {
+	public Classifier<Word, WordListResult> createWordClassifier() {
 		return wordClassifier;
 	}
 
 	@Override
-	public Classifier<Sentence> createSentenceClassifier() {
+	public Classifier<Sentence, WordListResult> createSentenceClassifier() {
 		return new GenericClassifier<>();
 	}
 
 	@Override
-	public Classifier<Paragraph> createParagraphClassifier() {
+	public Classifier<Paragraph, WordListResult> createParagraphClassifier() {
 		return new GenericClassifier<>();
 	}
 
 	@Override
-	public Classifier<Corpus> createCorpusClassifier() {
+	public Classifier<Corpus, WordListResult> createCorpusClassifier() {
 		return new GenericClassifier<>();
 	}
 }

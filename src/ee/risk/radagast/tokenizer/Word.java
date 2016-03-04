@@ -34,12 +34,12 @@ public class Word extends Token<Word, Word> {
 	}
 
 	@Override
-	public Result<Word> createResult(ResultFactory resultFactory) {
+	public <R extends Result<R>> R createResult(ResultFactory<R> resultFactory) {
 		return resultFactory.createWordResult();
 	}
 
 	@Override
-	public Classifier<Word> createClassifier(ClassifierFactory classifierFactory) {
+	public <R extends Result> Classifier<Word, R> createClassifier(ClassifierFactory<R> classifierFactory) {
 		return classifierFactory.createWordClassifier();
 	}
 }

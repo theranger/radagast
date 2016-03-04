@@ -37,12 +37,12 @@ public class Corpus extends Token<Corpus, Paragraph> {
 	}
 
 	@Override
-	public Result<Corpus> createResult(ResultFactory resultFactory) {
+	public <R extends Result<R>> R createResult(ResultFactory<R> resultFactory) {
 		return resultFactory.createCorpusResult();
 	}
 
 	@Override
-	public Classifier<Corpus> createClassifier(ClassifierFactory classifierFactory) {
+	public <R extends Result> Classifier<Corpus, R> createClassifier(ClassifierFactory<R> classifierFactory) {
 		return classifierFactory.createCorpusClassifier();
 	}
 }

@@ -29,46 +29,46 @@ import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Sentence;
 import ee.risk.radagast.tokenizer.Word;
 
-public abstract class Processor {
+public abstract class Processor<R extends Result<R>> {
 
-	private final ResultFactory resultFactory;
-	private final ClassifierFactory classifierFactory;
+	private final ResultFactory<R> resultFactory;
+	private final ClassifierFactory<R> classifierFactory;
 
-	protected Processor(ClassifierFactory classifierFactory, ResultFactory resultFactory) {
+	protected Processor(ClassifierFactory<R> classifierFactory, ResultFactory<R> resultFactory) {
 		this.classifierFactory = classifierFactory;
 		this.resultFactory = resultFactory;
 	}
 
 	public void process(Corpus corpus) {
 		corpus.getTokens().forEach(this::process);
-		Classifier<Corpus> classifier = corpus.createClassifier(classifierFactory);
-		Result<Corpus> result = corpus.createResult(resultFactory);
+		Classifier<Corpus, R> classifier = corpus.createClassifier(classifierFactory);
+		R result = corpus.createResult(resultFactory);
 		classifier.classify(corpus, result);
-		corpus.getTokens().forEach(paragraph -> result.aggregate(paragraph.getResults()));
+		corpus.getTokens().forEach(paragraph -> paragraph.getResults(result).forEach(result::aggregate));
 		corpus.addResult(result);
 	}
 
 	private void process(Paragraph paragraph) {
 		paragraph.getTokens().forEach(this::process);
-		Classifier<Paragraph> classifier = paragraph.createClassifier(classifierFactory);
-		Result<Paragraph> result = paragraph.createResult(resultFactory);
+		Classifier<Paragraph, R> classifier = paragraph.createClassifier(classifierFactory);
+		R result = paragraph.createResult(resultFactory);
 		classifier.classify(paragraph, result);
-		paragraph.getTokens().forEach(sentence -> result.aggregate(sentence.getResults()));
+		paragraph.getTokens().forEach(sentence -> sentence.getResults(result).forEach(result::aggregate));
 		paragraph.addResult(result);
 	}
 
 	private void process(Sentence sentence) {
 		sentence.getTokens().forEach(this::process);
-		Classifier<Sentence> classifier = sentence.createClassifier(classifierFactory);
-		Result<Sentence> result = sentence.createResult(resultFactory);
+		Classifier<Sentence, R> classifier = sentence.createClassifier(classifierFactory);
+		R result = sentence.createResult(resultFactory);
 		classifier.classify(sentence, result);
-		sentence.getTokens().forEach(word -> result.aggregate(word.getResults()));
+		sentence.getTokens().forEach(word -> word.getResults(result).forEach(result::aggregate));
 		sentence.addResult(result);
 	}
 
 	private void process(Word word) {
-		Classifier<Word> classifier = word.createClassifier(classifierFactory);
-		Result<Word> result = word.createResult(resultFactory);
+		Classifier<Word, R> classifier = word.createClassifier(classifierFactory);
+		R result = word.createResult(resultFactory);
 		classifier.classify(word, result);
 		word.addResult(result);
 	}

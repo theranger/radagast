@@ -20,14 +20,15 @@
 
 package ee.risk.radagast.classifier;
 
+import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Corpus;
 import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Sentence;
 import ee.risk.radagast.tokenizer.Word;
 
-public interface ClassifierFactory {
-	Classifier<Word> createWordClassifier();
-	Classifier<Sentence> createSentenceClassifier();
-	Classifier<Paragraph> createParagraphClassifier();
-	Classifier<Corpus> createCorpusClassifier();
+public interface ClassifierFactory<R extends Result> {
+	Classifier<Word, R> createWordClassifier();
+	Classifier<Sentence, R> createSentenceClassifier();
+	Classifier<Paragraph, R> createParagraphClassifier();
+	Classifier<Corpus, R> createCorpusClassifier();
 }

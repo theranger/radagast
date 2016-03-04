@@ -26,11 +26,12 @@ import ee.risk.radagast.result.Result;
 import ee.risk.radagast.result.ResultFactory;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public abstract class Token<T extends Token, S extends Token> {
 
 	protected final ArrayList<S> tokens = new ArrayList<>();
-	protected final ArrayList<Result<T>> results = new ArrayList<>();
+	protected final ArrayList<Result<? extends Result>> results = new ArrayList<>();
 	protected final String value;
 
 	public Token(String value) {
@@ -41,11 +42,15 @@ public abstract class Token<T extends Token, S extends Token> {
 		return tokens;
 	}
 
-	public ArrayList<Result<T>> getResults() {
-		return results;
+	@SuppressWarnings("unchecked")
+	public <R extends Result> ArrayList<R> getResults(R result) {
+		ArrayList<R> ret = new ArrayList<>();
+		Class resultClass = result.getClass();
+		ret.addAll(results.stream().filter(r -> r.getClass().isAssignableFrom(resultClass)).map(r -> (R) r).collect(Collectors.toList()));
+		return ret;
 	}
 
-	public void addResult(Result<T> result) {
+	public <R extends Result> void addResult(Result<R> result) {
 		results.add(result);
 	}
 
@@ -53,9 +58,9 @@ public abstract class Token<T extends Token, S extends Token> {
 		return value;
 	}
 
-	public abstract Result<T> createResult(ResultFactory resultFactory);
+	public abstract <R extends Result<R>> R createResult(ResultFactory<R> resultFactory);
 
-	public abstract Classifier<T> createClassifier(ClassifierFactory classifierFactory);
+	public abstract <R extends Result> Classifier<T, R> createClassifier(ClassifierFactory<R> classifierFactory);
 
 	@Override
 	public String toString() {

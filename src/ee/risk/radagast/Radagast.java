@@ -28,7 +28,7 @@ import java.io.IOException;
 class Radagast {
 
 	public static void main(String[] args) throws IOException {
-		Corpus corpus = new Corpus("Täna oli väga ilus päev!");
+		Corpus corpus = new Corpus("Täna oli väga ilus ja kena päev!");
 
 		WordListProcessor wordListProcessor = new WordListProcessor("../sqnad.csv");
 		wordListProcessor.process(corpus);

@@ -39,12 +39,12 @@ public class Sentence extends Token<Sentence, Word> {
 	}
 
 	@Override
-	public Result<Sentence> createResult(ResultFactory resultFactory) {
+	public <R extends Result<R>> R createResult(ResultFactory<R> resultFactory) {
 		return resultFactory.createSentenceResult();
 	}
 
 	@Override
-	public Classifier<Sentence> createClassifier(ClassifierFactory classifierFactory) {
+	public <R extends Result> Classifier<Sentence, R> createClassifier(ClassifierFactory<R> classifierFactory) {
 		return classifierFactory.createSentenceClassifier();
 	}
 }
