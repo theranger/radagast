@@ -41,7 +41,6 @@ public abstract class Token<T extends Token, S extends Token> {
 		return tokens;
 	}
 
-	@SuppressWarnings("unchecked")
 	public <R extends Result> ArrayList<Result<T, ?>> getResults() {
 		return results;
 	}
