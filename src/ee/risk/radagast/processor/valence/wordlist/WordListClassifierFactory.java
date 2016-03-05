@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.wordlist;
+package ee.risk.radagast.processor.valence.wordlist;
 
 import ee.risk.radagast.classifier.Classifier;
 import ee.risk.radagast.classifier.ClassifierFactory;
@@ -30,31 +30,31 @@ import ee.risk.radagast.tokenizer.Word;
 
 import java.io.IOException;
 
-public class WordListClassifierFactory implements ClassifierFactory<WordListResult> {
+public class WordListClassifierFactory implements ClassifierFactory<ValenceWordListResult> {
 
-	Classifier<Word, WordListResult> wordClassifier;
+	Classifier<Word, ValenceWordListResult> wordClassifier;
 
 	public WordListClassifierFactory(String wordFilePath) throws IOException {
 		wordClassifier = new WordClassifier(wordFilePath);
 	}
 
 	@Override
-	public Classifier<Word, WordListResult> createWordClassifier() {
+	public Classifier<Word, ValenceWordListResult> createWordClassifier() {
 		return wordClassifier;
 	}
 
 	@Override
-	public Classifier<Sentence, WordListResult> createSentenceClassifier() {
+	public Classifier<Sentence, ValenceWordListResult> createSentenceClassifier() {
 		return new GenericClassifier<>();
 	}
 
 	@Override
-	public Classifier<Paragraph, WordListResult> createParagraphClassifier() {
+	public Classifier<Paragraph, ValenceWordListResult> createParagraphClassifier() {
 		return new GenericClassifier<>();
 	}
 
 	@Override
-	public Classifier<Corpus, WordListResult> createCorpusClassifier() {
+	public Classifier<Corpus, ValenceWordListResult> createCorpusClassifier() {
 		return new GenericClassifier<>();
 	}
 }

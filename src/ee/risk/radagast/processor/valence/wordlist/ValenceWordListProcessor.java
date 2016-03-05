@@ -18,33 +18,15 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.wordlist;
+package ee.risk.radagast.processor.valence.wordlist;
 
-import ee.risk.radagast.classifier.Classifier;
-import ee.risk.radagast.tokenizer.Word;
+import ee.risk.radagast.processor.Processor;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
-public class WordClassifier implements Classifier<Word, WordListResult> {
-	private final Map<String, Integer> wordList = new HashMap<>();
+public class ValenceWordListProcessor extends Processor<ValenceWordListResult> {
 
-	public WordClassifier(String wordListFile) throws IOException {
-		String line;
-
-		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(wordListFile))) {
-			while ((line = bufferedReader.readLine()) != null) {
-				String[] values = line.split(",");
-				if (values.length < 2) continue;
-				wordList.put(values[0], Integer.valueOf(values[1]));
-			}
-		}
-	}
-
-	public void classify(Word word, WordListResult result) {
-		result.value = wordList.getOrDefault(word.getValue(), 0);
+	public ValenceWordListProcessor(String wordFilePath) throws IOException {
+		super(new WordListClassifierFactory(wordFilePath), new WordListResultFactory());
 	}
 }

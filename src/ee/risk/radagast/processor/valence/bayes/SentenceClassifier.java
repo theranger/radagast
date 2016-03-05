@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.bayes;
+package ee.risk.radagast.processor.valence.bayes;
 
 import de.daslaboratorium.machinelearning.classifier.BayesClassifier;
 import de.daslaboratorium.machinelearning.classifier.Classification;
@@ -32,7 +32,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class SentenceClassifier implements Classifier<Sentence, BayesResult> {
+public class SentenceClassifier implements Classifier<Sentence, ValenceBayesResult> {
 	private Log log = Log.getLogger(Log.Level.DEBUG);
 	private BayesClassifier<String, String> bayesClassifier = new BayesClassifier<>();
 
@@ -50,7 +50,7 @@ public class SentenceClassifier implements Classifier<Sentence, BayesResult> {
 	}
 
 	@Override
-	public void classify(Sentence token, BayesResult result) {
+	public void classify(Sentence token, ValenceBayesResult result) {
 		ArrayList <String> words = new ArrayList<>();
 		token.getTokens().forEach(word -> words.add(word.getValue()));
 

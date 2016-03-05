@@ -18,33 +18,43 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.bayes;
+package ee.risk.radagast.processor.valence.bayes;
 
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.result.ResultFactory;
+import ee.risk.radagast.classifier.Classifier;
+import ee.risk.radagast.classifier.ClassifierFactory;
+import ee.risk.radagast.classifier.GenericClassifier;
 import ee.risk.radagast.tokenizer.Corpus;
 import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Sentence;
 import ee.risk.radagast.tokenizer.Word;
 
-public class BayesResultFactory implements ResultFactory<BayesResult> {
-	@Override
-	public Result<Word, BayesResult> createWordResult() {
-		return new BayesResult<>();
+import java.io.IOException;
+
+public class BayesClassifierFactory implements ClassifierFactory<ValenceBayesResult> {
+
+	Classifier<Sentence, ValenceBayesResult> sentenceClassifier;
+
+	public BayesClassifierFactory(String trainingCorpusFile) throws IOException {
+		sentenceClassifier = new SentenceClassifier(trainingCorpusFile);
 	}
 
 	@Override
-	public Result<Sentence, BayesResult> createSentenceResult() {
-		return new BayesResult<>();
+	public Classifier<Word, ValenceBayesResult> createWordClassifier() {
+		return new GenericClassifier<>();
 	}
 
 	@Override
-	public Result<Paragraph, BayesResult> createParagraphResult() {
-		return new BayesResult<>();
+	public Classifier<Sentence, ValenceBayesResult> createSentenceClassifier() {
+		return sentenceClassifier;
 	}
 
 	@Override
-	public Result<Corpus, BayesResult> createCorpusResult() {
-		return new BayesResult<>();
+	public Classifier<Paragraph, ValenceBayesResult> createParagraphClassifier() {
+		return new GenericClassifier<>();
+	}
+
+	@Override
+	public Classifier<Corpus, ValenceBayesResult> createCorpusClassifier() {
+		return new GenericClassifier<>();
 	}
 }

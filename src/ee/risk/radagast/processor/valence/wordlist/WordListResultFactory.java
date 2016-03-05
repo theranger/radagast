@@ -18,7 +18,7 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.wordlist;
+package ee.risk.radagast.processor.valence.wordlist;
 
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.result.ResultFactory;
@@ -27,25 +27,25 @@ import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Sentence;
 import ee.risk.radagast.tokenizer.Word;
 
-public class WordListResultFactory implements ResultFactory<WordListResult> {
+public class WordListResultFactory implements ResultFactory<ValenceWordListResult> {
 
 	@Override
-	public Result<Word, WordListResult> createWordResult() {
-		return new WordListResult<>();
+	public Result<Word, ValenceWordListResult> createWordResult() {
+		return new ValenceWordListResult<>();
 	}
 
 	@Override
-	public Result<Sentence, WordListResult> createSentenceResult() {
-		return new WordListResult<>();
+	public Result<Sentence, ValenceWordListResult> createSentenceResult() {
+		return new ValenceWordListResult<>();
 	}
 
 	@Override
-	public Result<Paragraph, WordListResult> createParagraphResult() {
-		return new WordListResult<>();
+	public Result<Paragraph, ValenceWordListResult> createParagraphResult() {
+		return new ValenceWordListResult<>();
 	}
 
 	@Override
-	public Result<Corpus, WordListResult> createCorpusResult() {
-		return new WordListResult.WordListCorpusResult();
+	public Result<Corpus, ValenceWordListResult> createCorpusResult() {
+		return new ValenceWordListResult.ValenceWordCorpusListResult();
 	}
 }

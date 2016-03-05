@@ -18,25 +18,39 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast;
+package ee.risk.radagast.processor.valence.wordlist;
 
-import ee.risk.radagast.processor.valence.bayes.ValenceBayesProcessor;
-import ee.risk.radagast.processor.valence.wordlist.ValenceWordListProcessor;
+import ee.risk.radagast.log.Log;
+import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.tokenizer.Token;
 
-import java.io.IOException;
+public class ValenceWordListResult<T extends Token> implements Result<T, ValenceWordListResult> {
+	protected Log log = Log.getLogger(Log.Level.DEBUG);
+	public int value = 0;
 
-class Radagast {
+	@Override
+	public void aggregate(T token, ValenceWordListResult result) {
+		log.debug("Result: %d, %d", value, result.value);
+		value += result.value;
+	}
 
-	public static void main(String[] args) throws IOException {
-		Corpus corpus = new Corpus("Täna oli väga ilus ja kena päev!");
+	@Override
+	public void reduce(Result result) {
 
-		ValenceWordListProcessor valenceWordListProcessor = new ValenceWordListProcessor("lib/valence/sqnad.csv");
-		valenceWordListProcessor.process(corpus);
+	}
 
-		ValenceBayesProcessor valenceBayesProcessor = new ValenceBayesProcessor("lib/valence/korpus.csv");
-		valenceBayesProcessor.process(corpus);
+	static class ValenceWordCorpusListResult extends ValenceWordListResult<Corpus> {
 
-		corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
+		@Override
+		public void aggregate(Corpus corpus, ValenceWordListResult result) {
+			value += result.value;
+			log.debug("Corpus result: %.2f", (double)value / 100);
+		}
+	}
+
+	@Override
+	public String toString() {
+		return getClass().getSimpleName() + ": " + value;
 	}
 }

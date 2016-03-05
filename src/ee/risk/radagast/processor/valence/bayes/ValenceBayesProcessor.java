@@ -18,15 +18,14 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.wordlist;
+package ee.risk.radagast.processor.valence.bayes;
 
 import ee.risk.radagast.processor.Processor;
 
 import java.io.IOException;
 
-public class WordListProcessor extends Processor<WordListResult> {
-
-	public WordListProcessor(String wordFilePath) throws IOException {
-		super(new WordListClassifierFactory(wordFilePath), new WordListResultFactory());
+public class ValenceBayesProcessor extends Processor<ValenceBayesResult> {
+	public ValenceBayesProcessor(String trainingCorpusFile) throws IOException {
+		super(new BayesClassifierFactory(trainingCorpusFile), new BayesResultFactory());
 	}
 }
