@@ -30,7 +30,7 @@ public class Word extends Token<Word, Word> {
 	public static final String separator = "[,\\s]";
 
 	public Word(String value) {
-		super(value);
+		super(value.toLowerCase());
 	}
 
 	@Override

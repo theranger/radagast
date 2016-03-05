@@ -44,7 +44,7 @@ public class SentenceClassifier implements Classifier<Sentence, BayesResult> {
 				String[] values = line.split(",");
 				if (values.length < 2) continue;
 
-				bayesClassifier.learn(values[0], Arrays.asList(values[1].split("\\s")));
+				bayesClassifier.learn(values[0], Arrays.asList(values[1].toLowerCase().split("\\s")));
 			}
 		}
 	}
