@@ -18,25 +18,33 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast;
+package ee.risk.radagast.processor.bayes;
 
-import ee.risk.radagast.processor.bayes.BayesProcessor;
-import ee.risk.radagast.processor.wordlist.WordListProcessor;
+import ee.risk.radagast.result.Result;
+import ee.risk.radagast.result.ResultFactory;
 import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.tokenizer.Paragraph;
+import ee.risk.radagast.tokenizer.Sentence;
+import ee.risk.radagast.tokenizer.Word;
 
-import java.io.IOException;
+public class BayesResultFactory implements ResultFactory<BayesResult> {
+	@Override
+	public Result<Word, BayesResult> createWordResult() {
+		return new BayesResult<>();
+	}
 
-class Radagast {
+	@Override
+	public Result<Sentence, BayesResult> createSentenceResult() {
+		return new BayesResult<>();
+	}
 
-	public static void main(String[] args) throws IOException {
-		Corpus corpus = new Corpus("Täna oli väga ilus ja kena päev!");
+	@Override
+	public Result<Paragraph, BayesResult> createParagraphResult() {
+		return new BayesResult<>();
+	}
 
-		WordListProcessor wordListProcessor = new WordListProcessor("lib/valence/sqnad.csv");
-		wordListProcessor.process(corpus);
-
-		BayesProcessor bayesProcessor = new BayesProcessor("lib/valence/korpus.csv");
-		bayesProcessor.process(corpus);
-
-		corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
+	@Override
+	public Result<Corpus, BayesResult> createCorpusResult() {
+		return new BayesResult<>();
 	}
 }

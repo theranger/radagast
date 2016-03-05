@@ -18,25 +18,28 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast;
+package ee.risk.radagast.processor.bayes;
 
-import ee.risk.radagast.processor.bayes.BayesProcessor;
-import ee.risk.radagast.processor.wordlist.WordListProcessor;
-import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.result.Result;
+import ee.risk.radagast.tokenizer.Token;
 
-import java.io.IOException;
+public class BayesResult<T extends Token> implements Result<T, BayesResult> {
+	public float value = 0f;
+	public String category;
 
-class Radagast {
+	@Override
+	public void aggregate(T token, BayesResult result) {
+		value += result.value;
+		category = result.category == null ? category : result.category;
+	}
 
-	public static void main(String[] args) throws IOException {
-		Corpus corpus = new Corpus("Täna oli väga ilus ja kena päev!");
+	@Override
+	public void reduce(Result result) {
 
-		WordListProcessor wordListProcessor = new WordListProcessor("lib/valence/sqnad.csv");
-		wordListProcessor.process(corpus);
+	}
 
-		BayesProcessor bayesProcessor = new BayesProcessor("lib/valence/korpus.csv");
-		bayesProcessor.process(corpus);
-
-		corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
+	@Override
+	public String toString() {
+		return "BayesResult: " + value + ": " + category;
 	}
 }

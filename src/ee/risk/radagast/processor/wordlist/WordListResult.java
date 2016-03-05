@@ -48,4 +48,9 @@ public class WordListResult<T extends Token> implements Result<T, WordListResult
 			log.debug("Corpus result: %.2f", (double)value / 100);
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "WordListResult: " + value;
+	}
 }

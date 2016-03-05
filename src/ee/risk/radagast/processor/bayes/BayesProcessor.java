@@ -18,25 +18,16 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast;
+package ee.risk.radagast.processor.bayes;
 
-import ee.risk.radagast.processor.bayes.BayesProcessor;
-import ee.risk.radagast.processor.wordlist.WordListProcessor;
-import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.classifier.ClassifierFactory;
+import ee.risk.radagast.processor.Processor;
+import ee.risk.radagast.result.ResultFactory;
 
 import java.io.IOException;
 
-class Radagast {
-
-	public static void main(String[] args) throws IOException {
-		Corpus corpus = new Corpus("Täna oli väga ilus ja kena päev!");
-
-		WordListProcessor wordListProcessor = new WordListProcessor("lib/valence/sqnad.csv");
-		wordListProcessor.process(corpus);
-
-		BayesProcessor bayesProcessor = new BayesProcessor("lib/valence/korpus.csv");
-		bayesProcessor.process(corpus);
-
-		corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
+public class BayesProcessor extends Processor<BayesResult> {
+	public BayesProcessor(String trainingCorpusFile) throws IOException {
+		super(new BayesClassifierFactory(trainingCorpusFile), new BayesResultFactory());
 	}
 }
