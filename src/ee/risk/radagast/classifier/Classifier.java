@@ -24,5 +24,5 @@ import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
 
 public interface Classifier<T extends Token, R extends Result> {
-	void classify(T token, R result);
+	void classify(T token, Result<T, R> result);
 }

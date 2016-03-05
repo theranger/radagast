@@ -46,6 +46,6 @@ public class WordListResultFactory implements ResultFactory<ValenceWordListResul
 
 	@Override
 	public Result<Corpus, ValenceWordListResult> createCorpusResult() {
-		return new ValenceWordListResult.ValenceWordCorpusListResult();
+		return new ValenceWordListResult<>();
 	}
 }

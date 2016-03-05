@@ -20,19 +20,26 @@
 
 package ee.risk.radagast.processor.valence.wordlist;
 
+import ee.risk.radagast.lib.CountMap;
 import ee.risk.radagast.log.Log;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Corpus;
 import ee.risk.radagast.tokenizer.Token;
 
+import javax.lang.model.type.ArrayType;
+import javax.lang.model.type.IntersectionType;
+import java.util.*;
+
 public class ValenceWordListResult<T extends Token> implements Result<T, ValenceWordListResult> {
+	public enum Valence { POSITIVE, NEGATIVE, EXTREME }
+
+	private CountMap<Valence> values = new CountMap<>(Valence.class);
 	protected Log log = Log.getLogger(Log.Level.DEBUG);
-	public int value = 0;
 
 	@Override
-	public void aggregate(T token, ValenceWordListResult result) {
-		log.debug("Result: %d, %d", value, result.value);
-		value += result.value;
+	public <S extends Token> void aggregate(T token, S child, Result<S, ValenceWordListResult> result) {
+		ValenceWordListResult<S> valenceWordListResult = (ValenceWordListResult<S>) result;
+		values.putAll(valenceWordListResult.values.getMax());
 	}
 
 	@Override
@@ -40,8 +47,17 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 
 	}
 
+	public void setResult(int valence) {
+		if (valence > 0)
+			values.add(Valence.POSITIVE);
+		else if (valence == -8)
+			values.add(Valence.EXTREME);
+		else if (valence < 0)
+			values.add(Valence.NEGATIVE);
+	}
+
 	@Override
 	public String toString() {
-		return getClass().getSimpleName() + ": " + value;
+		return getClass().getSimpleName() + ": " + values.toString();
 	}
 }

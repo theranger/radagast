@@ -21,6 +21,7 @@
 package ee.risk.radagast.processor.valence.wordlist;
 
 import ee.risk.radagast.classifier.Classifier;
+import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Word;
 
 import java.io.BufferedReader;
@@ -44,7 +45,8 @@ public class WordClassifier implements Classifier<Word, ValenceWordListResult> {
 		}
 	}
 
-	public void classify(Word word, ValenceWordListResult result) {
-		result.value = wordList.getOrDefault(word.getValue(), 0);
+	public void classify(Word word, Result<Word, ValenceWordListResult> result) {
+		ValenceWordListResult valenceWordListResult = (ValenceWordListResult) result;
+		valenceWordListResult.setResult(wordList.getOrDefault(word.getValue(), 0));
 	}
 }

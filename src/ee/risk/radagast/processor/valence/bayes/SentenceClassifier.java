@@ -24,6 +24,7 @@ import de.daslaboratorium.machinelearning.classifier.BayesClassifier;
 import de.daslaboratorium.machinelearning.classifier.Classification;
 import ee.risk.radagast.classifier.Classifier;
 import ee.risk.radagast.log.Log;
+import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Sentence;
 
 import java.io.BufferedReader;
@@ -50,12 +51,14 @@ public class SentenceClassifier implements Classifier<Sentence, ValenceBayesResu
 	}
 
 	@Override
-	public void classify(Sentence token, ValenceBayesResult result) {
+	public void classify(Sentence token, Result<Sentence, ValenceBayesResult> result) {
+		ValenceBayesResult valenceBayesResult = (ValenceBayesResult) result;
+
 		ArrayList <String> words = new ArrayList<>();
 		token.getTokens().forEach(word -> words.add(word.getValue()));
 
 		Classification ret = bayesClassifier.classify(words);
-		result.value = ret.getProbability();
-		result.category = ret.getCategory().toString();
+		valenceBayesResult.value = ret.getProbability();
+		valenceBayesResult.category = ret.getCategory().toString();
 	}
 }

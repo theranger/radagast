@@ -28,7 +28,7 @@ public class GenericClassifier<T extends Token, R extends Result> implements Cla
 	protected static final Log log = Log.getLogger(Log.Level.DEBUG);
 
 	@Override
-	public void classify(T token, R result) {
+	public void classify(T token, Result<T, R> result) {
 		log.debug("Parsing token %s", token.getValue());
 	}
 }

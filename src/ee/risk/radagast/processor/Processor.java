@@ -44,10 +44,10 @@ public abstract class Processor<R extends Result> {
 		corpus.getTokens().forEach(this::process);
 		Classifier<Corpus, R> classifier = corpus.createClassifier(classifierFactory);
 		Result<Corpus, R> result = corpus.createResult(resultFactory);
-		classifier.classify(corpus, (R)result);
+		classifier.classify(corpus, result);
 
 		for(Paragraph p : corpus.getTokens()) {
-			p.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(corpus, (R) r));
+			p.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(corpus, p, (Result<Paragraph, R>)r));
 		}
 
 		corpus.addResult(result);
@@ -57,10 +57,10 @@ public abstract class Processor<R extends Result> {
 		paragraph.getTokens().forEach(this::process);
 		Classifier<Paragraph, R> classifier = paragraph.createClassifier(classifierFactory);
 		Result<Paragraph, R> result = paragraph.createResult(resultFactory);
-		classifier.classify(paragraph, (R)result);
+		classifier.classify(paragraph, result);
 
 		for(Sentence s : paragraph.getTokens()) {
-			s.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(paragraph, (R) r));
+			s.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(paragraph, s, (Result<Sentence, R>) r));
 		}
 		paragraph.addResult(result);
 	}
@@ -69,10 +69,10 @@ public abstract class Processor<R extends Result> {
 		sentence.getTokens().forEach(this::process);
 		Classifier<Sentence, R> classifier = sentence.createClassifier(classifierFactory);
 		Result<Sentence, R> result = sentence.createResult(resultFactory);
-		classifier.classify(sentence, (R)result);
+		classifier.classify(sentence, result);
 
 		for(Word w : sentence.getTokens()) {
-			w.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(sentence, (R) r));
+			w.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(sentence, w, (Result<Word, R>) r));
 		}
 
 		sentence.addResult(result);
@@ -81,7 +81,7 @@ public abstract class Processor<R extends Result> {
 	private void process(Word word) {
 		Classifier<Word, R> classifier = word.createClassifier(classifierFactory);
 		Result<Word, R> result = word.createResult(resultFactory);
-		classifier.classify(word, (R)result);
+		classifier.classify(word, result);
 		word.addResult(result);
 	}
 }

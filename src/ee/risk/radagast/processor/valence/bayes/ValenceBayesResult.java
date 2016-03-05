@@ -28,9 +28,11 @@ public class ValenceBayesResult<T extends Token> implements Result<T, ValenceBay
 	public String category;
 
 	@Override
-	public void aggregate(T token, ValenceBayesResult result) {
-		value += result.value;
-		category = result.category == null ? category : result.category;
+	public <S extends Token> void aggregate(T token, S child, Result<S, ValenceBayesResult> result) {
+		ValenceBayesResult<S> valenceBayesResult = (ValenceBayesResult<S>) result;
+
+		value += valenceBayesResult.value;
+		category = valenceBayesResult.category == null ? category : valenceBayesResult.category;
 	}
 
 	@Override
