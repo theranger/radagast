@@ -40,15 +40,6 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 
 	}
 
-	static class ValenceWordCorpusListResult extends ValenceWordListResult<Corpus> {
-
-		@Override
-		public void aggregate(Corpus corpus, ValenceWordListResult result) {
-			value += result.value;
-			log.debug("Corpus result: %.2f", (double)value / 100);
-		}
-	}
-
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + value;
