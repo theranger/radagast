@@ -20,11 +20,9 @@
 
 package ee.risk.radagast.lib;
 
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Collector;
+import java.util.EnumMap;
+import java.util.Map;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CountMap<K extends Enum<K>> extends EnumMap<K, Integer> {
 
@@ -40,6 +38,15 @@ public class CountMap<K extends Enum<K>> extends EnumMap<K, Integer> {
 		put(key, count + 1);
 	}
 
+	public void add(K key, int value) {
+		Integer count = getOrDefault(key, 0);
+		put(key, count + value);
+	}
+
+	public void set(K key, int value) {
+		put(key, value);
+	}
+
 	public Map<K, Integer> getMax() {
 		if (isEmpty()) return new CountMap<>(keyType);
 
@@ -52,6 +59,11 @@ public class CountMap<K extends Enum<K>> extends EnumMap<K, Integer> {
 				.stream()
 				.filter(e -> e.getValue().equals(max.getValue()))
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
+	}
+
+	public void merge(CountMap<K> countMap) {
+		if (countMap.isEmpty()) return;
+		countMap.forEach((key, value) -> put(key, getOrDefault(key, 0) + value));
 	}
 
 	@Override
