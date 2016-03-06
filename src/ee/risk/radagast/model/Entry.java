@@ -18,14 +18,51 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.classifier;
+package ee.risk.radagast.model;
 
-import ee.risk.radagast.log.Log;
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.tokenizer.Token;
+import ee.risk.radagast.tokenizer.Corpus;
 
-public class GenericClassifier<T extends Token, R extends Result> implements Classifier<T, R> {
+public class Entry {
+	private Corpus content;
+	private Corpus title;
+	private String name;
+
+	public Corpus getContent() {
+		return content;
+	}
+
+	public void setContent(Corpus content) {
+		this.content = content;
+	}
+
+	public Corpus getTitle() {
+		return title;
+	}
+
+	public void setTitle(Corpus title) {
+		this.title = title;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	@Override
-	public void classify(T token, Result<T, R> result) { }
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+
+		if (!name.isEmpty()) {
+			sb.append("From: ");
+			sb.append(name);
+			sb.append("\n");
+		}
+
+		sb.append(content);
+
+		return sb.toString();
+	}
 }

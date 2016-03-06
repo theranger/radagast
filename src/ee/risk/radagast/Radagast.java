@@ -20,6 +20,8 @@
 
 package ee.risk.radagast;
 
+import ee.risk.radagast.model.Entry;
+import ee.risk.radagast.parser.TextFileParser;
 import ee.risk.radagast.processor.valence.bayes.ValenceBayesProcessor;
 import ee.risk.radagast.processor.valence.wordlist.ValenceWordListProcessor;
 import ee.risk.radagast.tokenizer.Corpus;
@@ -29,14 +31,32 @@ import java.io.IOException;
 class Radagast {
 
 	public static void main(String[] args) throws IOException {
-		Corpus corpus = new Corpus("Täna oli väga ilus ja kena päev!");
+		if (args.length < 1) {
+			printHelp();
+			return;
+		}
 
+		TextFileParser textFileParser = new TextFileParser(args[0]);
 		ValenceWordListProcessor valenceWordListProcessor = new ValenceWordListProcessor("lib/valence/sqnad.csv");
-		valenceWordListProcessor.process(corpus);
-
 		ValenceBayesProcessor valenceBayesProcessor = new ValenceBayesProcessor("lib/valence/korpus.csv");
-		valenceBayesProcessor.process(corpus);
 
-		corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
+		Entry entry;
+		while ((entry = textFileParser.parse()) != null) {
+			Corpus corpus = entry.getContent();
+			valenceWordListProcessor.process(corpus);
+			valenceBayesProcessor.process(corpus);
+
+			System.out.println(entry);
+			corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
+			System.out.println();
+			System.out.println();
+		}
+	}
+
+	private static void printHelp() {
+		System.out.println("Radagast is a classification framework for user submitted content.\n\n" +
+				"Usage: radagast.java [entries_file]\n" +
+				"	entries_file - file name where analyzable content is located.\n"
+		);
 	}
 }

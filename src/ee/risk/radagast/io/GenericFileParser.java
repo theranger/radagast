@@ -18,14 +18,33 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.classifier;
+package ee.risk.radagast.io;
 
-import ee.risk.radagast.log.Log;
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.tokenizer.Token;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 
-public class GenericClassifier<T extends Token, R extends Result> implements Classifier<T, R> {
+public abstract class GenericFileParser<T> implements FileParser<T> {
+
+	protected BufferedReader reader;
+
+	public GenericFileParser(String fileName) throws FileNotFoundException {
+		open(fileName);
+	}
 
 	@Override
-	public void classify(T token, Result<T, R> result) { }
+	public void open(String fileName) throws FileNotFoundException {
+		close();
+		reader = new BufferedReader(new FileReader(fileName));
+	}
+
+	@Override
+	public void close() {
+		try {
+			if (reader == null) return;
+			reader.close();
+		}
+		catch (IOException ignored) { }
+	}
 }
