@@ -48,5 +48,6 @@ public class WordClassifier implements Classifier<Word, ValenceWordListResult> {
 	public void classify(Word word, Result<Word, ValenceWordListResult> result) {
 		ValenceWordListResult valenceWordListResult = (ValenceWordListResult) result;
 		valenceWordListResult.setResult(wordList.getOrDefault(word.getValue(), 0));
+		valenceWordListResult.setWordCount(1);
 	}
 }

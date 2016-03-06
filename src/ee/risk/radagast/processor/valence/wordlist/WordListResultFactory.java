@@ -41,7 +41,7 @@ public class WordListResultFactory implements ResultFactory<ValenceWordListResul
 
 	@Override
 	public Result<Paragraph, ValenceWordListResult> createParagraphResult() {
-		return new ValenceWordListResult<>();
+		return new ValenceWordListResult.ParagraphResult();
 	}
 
 	@Override

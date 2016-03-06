@@ -23,28 +23,30 @@ package ee.risk.radagast.processor.valence.wordlist;
 import ee.risk.radagast.lib.CountMap;
 import ee.risk.radagast.log.Log;
 import ee.risk.radagast.result.Result;
-import ee.risk.radagast.tokenizer.Corpus;
+import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Token;
 
-import javax.lang.model.type.ArrayType;
-import javax.lang.model.type.IntersectionType;
-import java.util.*;
-
 public class ValenceWordListResult<T extends Token> implements Result<T, ValenceWordListResult> {
-	public enum Valence { POSITIVE, NEGATIVE, EXTREME }
+	public enum Valence { POSITIVE, NEGATIVE, EXTREME, MIXED }
 
-	private CountMap<Valence> values = new CountMap<>(Valence.class);
+	protected int wordCount;
+	protected CountMap<Valence> values = new CountMap<>(Valence.class);
 	protected Log log = Log.getLogger(Log.Level.DEBUG);
 
 	@Override
 	public <S extends Token> void aggregate(T token, S child, Result<S, ValenceWordListResult> result) {
 		ValenceWordListResult<S> valenceWordListResult = (ValenceWordListResult<S>) result;
-		values.putAll(valenceWordListResult.values.getMax());
+		values.merge(valenceWordListResult.values);
+		wordCount += valenceWordListResult.wordCount;
 	}
 
 	@Override
 	public void reduce(Result result) {
 
+	}
+
+	public void setWordCount(int wordCount) {
+		this.wordCount = wordCount;
 	}
 
 	public void setResult(int valence) {
@@ -59,5 +61,34 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + values.toString();
+	}
+
+
+	public static class ParagraphResult extends ValenceWordListResult<Paragraph> {
+		@Override
+		public <S extends Token> void aggregate(Paragraph token, S child, Result<S, ValenceWordListResult> result) {
+			ValenceWordListResult<S> r = (ValenceWordListResult<S>) result;
+			wordCount += r.wordCount;
+
+			if (r.values.containsKey(Valence.EXTREME)) {
+				values.set(Valence.NEGATIVE, r.wordCount);
+				return;
+			}
+
+			int positive = r.values.getOrDefault(Valence.POSITIVE, 0);
+			int negative = r.values.getOrDefault(Valence.NEGATIVE, 0);
+
+			if (positive > negative) {
+				values.set(Valence.POSITIVE, r.wordCount);
+				return;
+			}
+
+			if (negative > positive) {
+				values.set(Valence.NEGATIVE, r.wordCount);
+				return;
+			}
+
+			if (positive == negative) values.set(Valence.MIXED, r.wordCount);
+		}
 	}
 }
