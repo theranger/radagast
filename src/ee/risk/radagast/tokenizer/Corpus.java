@@ -32,6 +32,7 @@ public class Corpus extends Token<Corpus, Paragraph> {
 
 		String [] paragraphs = value.split(Paragraph.separator);
 		for(String paragraph : paragraphs) {
+			if (paragraph.isEmpty()) continue;
 			tokens.add(new Paragraph(paragraph));
 		}
 	}

@@ -34,6 +34,7 @@ public class Sentence extends Token<Sentence, Word> {
 
 		String[] words = value.split(Word.separator);
 		for(String word : words) {
+			if (word.isEmpty()) continue;
 			tokens.add(new Word(word));
 		}
 	}

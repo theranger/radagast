@@ -34,6 +34,7 @@ public class Paragraph extends Token<Paragraph, Sentence> {
 
 		String[] sentences = value.split(Sentence.separator);
 		for (String sentence : sentences) {
+			if (sentence.isEmpty()) continue;
 			tokens.add(new Sentence(sentence));
 		}
 	}
