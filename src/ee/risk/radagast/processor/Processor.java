@@ -47,7 +47,12 @@ public abstract class Processor<R extends Result> {
 		classifier.classify(corpus, result);
 
 		for(Paragraph p : corpus.getTokens()) {
-			p.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(corpus, p, (Result<Paragraph, R>)r));
+			p.getResults().forEach(r -> {
+				try {
+					result.aggregate(corpus, p, (Result<Paragraph, R>) r);
+				}
+				catch (ClassCastException ignored) {}
+			});
 		}
 
 		corpus.addResult(result);
@@ -60,7 +65,12 @@ public abstract class Processor<R extends Result> {
 		classifier.classify(paragraph, result);
 
 		for(Sentence s : paragraph.getTokens()) {
-			s.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(paragraph, s, (Result<Sentence, R>) r));
+			s.getResults().forEach(r -> {
+				try {
+					result.aggregate(paragraph, s, (Result<Sentence, R>) r);
+				}
+				catch (ClassCastException ignored) {}
+			});
 		}
 		paragraph.addResult(result);
 	}
@@ -72,7 +82,12 @@ public abstract class Processor<R extends Result> {
 		classifier.classify(sentence, result);
 
 		for(Word w : sentence.getTokens()) {
-			w.getResults().stream().filter(r -> r.getClass().isAssignableFrom(result.getClass())).forEach(r -> result.aggregate(sentence, w, (Result<Word, R>) r));
+			w.getResults().forEach(r -> {
+				try {
+					result.aggregate(sentence, w, (Result<Word, R>) r);
+				}
+				catch (ClassCastException ignored) {}
+			});
 		}
 
 		sentence.addResult(result);
