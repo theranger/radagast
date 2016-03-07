@@ -27,7 +27,7 @@ import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Token;
 
 public class ValenceWordListResult<T extends Token> implements Result<T, ValenceWordListResult> {
-	public enum Valence { POSITIVE, NEGATIVE, EXTREME, MIXED }
+	public enum Valence { POSITIVE, NEGATIVE, EXTREME, MIXED, NEUTRAL }
 
 	protected int wordCount;
 	protected CountMap<Valence> values = new CountMap<>(Valence.class);
@@ -71,7 +71,7 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 			wordCount += r.wordCount;
 
 			if (r.values.containsKey(Valence.EXTREME)) {
-				values.set(Valence.NEGATIVE, r.wordCount);
+				values.add(Valence.NEGATIVE, r.wordCount);
 				return;
 			}
 
@@ -79,16 +79,21 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 			int negative = r.values.getOrDefault(Valence.NEGATIVE, 0);
 
 			if (positive > negative) {
-				values.set(Valence.POSITIVE, r.wordCount);
+				values.add(Valence.POSITIVE, r.wordCount);
 				return;
 			}
 
 			if (negative > positive) {
-				values.set(Valence.NEGATIVE, r.wordCount);
+				values.add(Valence.NEGATIVE, r.wordCount);
 				return;
 			}
 
-			if (positive == negative) values.set(Valence.MIXED, r.wordCount);
+			if (positive == negative) {
+				values.add(Valence.MIXED, r.wordCount);
+				return;
+			}
+
+			values.add(Valence.NEUTRAL, r.wordCount);
 		}
 	}
 }
