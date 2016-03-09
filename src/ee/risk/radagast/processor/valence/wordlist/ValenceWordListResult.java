@@ -71,34 +71,33 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 
 	public static class ParagraphResult extends ValenceWordListResult<Paragraph> {
 		@Override
-		public <S extends Token> void aggregate(Paragraph token, S child, Result<S, ValenceWordListResult> result) {
-			ValenceWordListResult<S> r = (ValenceWordListResult<S>) result;
-			wordCount += r.wordCount;
-
-			if (r.values.containsKey(Valence.EXTREME)) {
-				values.add(Valence.NEGATIVE, r.wordCount);
+		public void onPostAggregate() {
+			if (values.containsKey(Valence.EXTREME)) {
+				values.clear();
+				values.set(Valence.NEGATIVE, wordCount);
 				return;
 			}
 
-			int positive = r.values.getOrDefault(Valence.POSITIVE, 0);
-			int negative = r.values.getOrDefault(Valence.NEGATIVE, 0);
+			int positive = values.getOrDefault(Valence.POSITIVE, 0);
+			int negative = values.getOrDefault(Valence.NEGATIVE, 0);
+			values.clear();
 
 			if (positive > negative) {
-				values.add(Valence.POSITIVE, r.wordCount);
+				values.set(Valence.POSITIVE, wordCount);
 				return;
 			}
 
 			if (negative > positive) {
-				values.add(Valence.NEGATIVE, r.wordCount);
+				values.set(Valence.NEGATIVE, wordCount);
 				return;
 			}
 
 			if (positive == negative) {
-				values.add(Valence.MIXED, r.wordCount);
+				values.set(Valence.MIXED, wordCount);
 				return;
 			}
 
-			values.add(Valence.NEUTRAL, r.wordCount);
+			values.set(Valence.NEUTRAL, wordCount);
 		}
 	}
 }
