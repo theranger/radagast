@@ -55,6 +55,7 @@ public abstract class Processor<R extends Result> {
 			});
 		}
 
+		result.onPostAggregate();
 		corpus.addResult(result);
 	}
 
@@ -72,6 +73,8 @@ public abstract class Processor<R extends Result> {
 				catch (ClassCastException ignored) {}
 			});
 		}
+
+		result.onPostAggregate();
 		paragraph.addResult(result);
 	}
 
@@ -90,6 +93,7 @@ public abstract class Processor<R extends Result> {
 			});
 		}
 
+		result.onPostAggregate();
 		sentence.addResult(result);
 	}
 
@@ -97,6 +101,8 @@ public abstract class Processor<R extends Result> {
 		Classifier<Word, R> classifier = word.createClassifier(classifierFactory);
 		Result<Word, R> result = word.createResult(resultFactory);
 		classifier.classify(word, result);
+
+		result.onPostAggregate();
 		word.addResult(result);
 	}
 }

@@ -36,6 +36,11 @@ public class ValenceBayesResult<T extends Token> implements Result<T, ValenceBay
 	}
 
 	@Override
+	public void onPostAggregate() {
+
+	}
+
+	@Override
 	public void reduce(Result result) {
 
 	}

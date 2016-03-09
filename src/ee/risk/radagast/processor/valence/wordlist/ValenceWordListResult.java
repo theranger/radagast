@@ -41,6 +41,11 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 	}
 
 	@Override
+	public void onPostAggregate() {
+
+	}
+
+	@Override
 	public void reduce(Result result) {
 
 	}
