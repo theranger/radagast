@@ -20,11 +20,11 @@
 
 package ee.risk.radagast.processor.valence.bayes;
 
-import ee.risk.radagast.processor.Processor;
+import ee.risk.radagast.processor.TokenProcessor;
 
 import java.io.IOException;
 
-public class ValenceBayesProcessor extends Processor<ValenceBayesResult> {
+public class ValenceBayesProcessor extends TokenProcessor<ValenceBayesResult> {
 	public ValenceBayesProcessor(String trainingCorpusFile) throws IOException {
 		super(new BayesClassifierFactory(trainingCorpusFile), new BayesResultFactory());
 	}
