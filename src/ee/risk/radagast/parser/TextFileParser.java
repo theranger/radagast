@@ -93,6 +93,7 @@ public class TextFileParser extends GenericFileParser<Entry> {
 		if (line.isEmpty()) return State.SEPARATOR;
 
 		sb.append(line);
+		sb.append("\n");
 		return State.BODY;
 	}
 
