@@ -61,6 +61,11 @@ public class CountMap<K extends Enum<K>> extends EnumMap<K, Integer> {
 				.collect(Collectors.toMap(Entry::getKey, Entry::getValue));
 	}
 
+	public int getTotal() {
+		if(isEmpty()) return 0;
+		return entrySet().stream().mapToInt(Entry::getValue).reduce(0, Integer::sum);
+	}
+
 	public void merge(CountMap<K> countMap) {
 		if (countMap.isEmpty()) return;
 		countMap.forEach((key, value) -> put(key, getOrDefault(key, 0) + value));
