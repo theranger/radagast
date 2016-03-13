@@ -77,12 +77,12 @@ public class TextFileParser extends GenericFileParser<Entry> {
 		if (tokens.length < 2) return State.HEADER;
 
 		if (tokens[0].equalsIgnoreCase("subject")) {
-			entry.setTitle(new Corpus(tokens[1]));
+			entry.setTitle(new Corpus(tokens[1].trim()));
 			return State.HEADER;
 		}
 
 		if (tokens[0].equalsIgnoreCase("from")) {
-			entry.setName(tokens[1]);
+			entry.setName(tokens[1].trim());
 			return State.HEADER;
 		}
 
