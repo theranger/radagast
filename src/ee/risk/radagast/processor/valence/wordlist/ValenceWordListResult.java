@@ -23,7 +23,6 @@ package ee.risk.radagast.processor.valence.wordlist;
 import ee.risk.radagast.lib.CountMap;
 import ee.risk.radagast.log.Log;
 import ee.risk.radagast.result.Result;
-import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Token;
 
 public class ValenceWordListResult<T extends Token> implements Result<T, ValenceWordListResult> {
@@ -66,38 +65,5 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + values.toString();
-	}
-
-
-	public static class ParagraphResult extends ValenceWordListResult<Paragraph> {
-		@Override
-		public void onPostAggregate() {
-			if (values.containsKey(Valence.EXTREME)) {
-				values.clear();
-				values.set(Valence.NEGATIVE, wordCount);
-				return;
-			}
-
-			int positive = values.getOrDefault(Valence.POSITIVE, 0);
-			int negative = values.getOrDefault(Valence.NEGATIVE, 0);
-			values.clear();
-
-			if (positive > negative) {
-				values.set(Valence.POSITIVE, wordCount);
-				return;
-			}
-
-			if (negative > positive) {
-				values.set(Valence.NEGATIVE, wordCount);
-				return;
-			}
-
-			if (positive == negative) {
-				values.set(Valence.MIXED, wordCount);
-				return;
-			}
-
-			values.set(Valence.NEUTRAL, wordCount);
-		}
 	}
 }

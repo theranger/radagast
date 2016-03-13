@@ -20,32 +20,41 @@
 
 package ee.risk.radagast.processor.valence.wordlist;
 
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.result.ResultFactory;
-import ee.risk.radagast.tokenizer.Corpus;
 import ee.risk.radagast.tokenizer.Paragraph;
-import ee.risk.radagast.tokenizer.Sentence;
-import ee.risk.radagast.tokenizer.Word;
 
-public class WordListResultFactory implements ResultFactory<ValenceWordListResult> {
-
+public class ParagraphResult extends ValenceWordListResult<Paragraph> {
 	@Override
-	public Result<Word, ValenceWordListResult> createWordResult() {
-		return new ValenceWordListResult<>();
+	public void onPostAggregate() {
+		if (values.containsKey(Valence.EXTREME)) {
+			values.clear();
+			values.set(Valence.NEGATIVE, wordCount);
+			return;
+		}
+
+		int positive = values.getOrDefault(Valence.POSITIVE, 0);
+		int negative = values.getOrDefault(Valence.NEGATIVE, 0);
+		values.clear();
+
+		if (positive > negative) {
+			values.set(Valence.POSITIVE, wordCount);
+			return;
+		}
+
+		if (negative > positive) {
+			values.set(Valence.NEGATIVE, wordCount);
+			return;
+		}
+
+		if (positive == negative) {
+			values.set(Valence.MIXED, wordCount);
+			return;
+		}
+
+		values.set(Valence.NEUTRAL, wordCount);
 	}
 
 	@Override
-	public Result<Sentence, ValenceWordListResult> createSentenceResult() {
-		return new ValenceWordListResult<>();
-	}
-
-	@Override
-	public Result<Paragraph, ValenceWordListResult> createParagraphResult() {
-		return new ParagraphResult();
-	}
-
-	@Override
-	public Result<Corpus, ValenceWordListResult> createCorpusResult() {
-		return new CorpusResult();
+	public String toString() {
+		return getClass().getSimpleName() + ": " + values.toString();
 	}
 }
