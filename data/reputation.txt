@@ -1,0 +1,4 @@
+Alpha, 10
+Beeta, 20
+Gamma, 30
+Delta, -10

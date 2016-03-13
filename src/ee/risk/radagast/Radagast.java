@@ -21,7 +21,9 @@
 package ee.risk.radagast;
 
 import ee.risk.radagast.model.Entry;
+import ee.risk.radagast.parser.ParserException;
 import ee.risk.radagast.parser.TextFileParser;
+import ee.risk.radagast.processor.reputation.ReputationProcessor;
 import ee.risk.radagast.processor.valence.bayes.ValenceBayesProcessor;
 import ee.risk.radagast.processor.valence.wordlist.ValenceWordListProcessor;
 import ee.risk.radagast.tokenizer.Corpus;
@@ -30,7 +32,7 @@ import java.io.IOException;
 
 class Radagast {
 
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParserException {
 		if (args.length < 1) {
 			printHelp();
 			return;
@@ -39,15 +41,19 @@ class Radagast {
 		TextFileParser textFileParser = new TextFileParser(args[0]);
 		ValenceWordListProcessor valenceWordListProcessor = new ValenceWordListProcessor("lib/valence/sqnad.csv");
 		ValenceBayesProcessor valenceBayesProcessor = new ValenceBayesProcessor("lib/valence/korpus.csv");
+		ReputationProcessor reputationProcessor = new ReputationProcessor("data/reputation.txt");
 
 		Entry entry;
 		while ((entry = textFileParser.parse()) != null) {
+			reputationProcessor.process(entry);
+
 			Corpus corpus = entry.getContent();
 			valenceWordListProcessor.process(corpus);
 			valenceBayesProcessor.process(corpus);
 
 			System.out.println(entry);
 			corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
+			entry.getResults().forEach(entryResult -> System.out.println(entryResult.toString()));
 			System.out.println();
 			System.out.println();
 		}
