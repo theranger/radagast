@@ -40,6 +40,8 @@ result of the current token would be calculated like:
 	Token = { NEUTRAL(Z1 + Z2 + Z3), POSITIVE(P1 + P2), NEGATIVE(N1) }
 ```
 
+where arguments Zx, Px and Nx of each valence function is a total number of words classified as being in that valence.
+
 ### Paragraph
 As an exception from the above, paragraph level results are aggregated by summarizing all words in all sentences of the paragraph using a following rule set:
 
