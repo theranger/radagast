@@ -20,11 +20,11 @@
 
 package ee.risk.radagast.processor.valence.wordlist;
 
-import ee.risk.radagast.processor.Processor;
+import ee.risk.radagast.processor.TokenProcessor;
 
 import java.io.IOException;
 
-public class ValenceWordListProcessor extends Processor<ValenceWordListResult> {
+public class ValenceWordListProcessor extends TokenProcessor<ValenceWordListResult> {
 
 	public ValenceWordListProcessor(String wordFilePath) throws IOException {
 		super(new WordListClassifierFactory(wordFilePath), new WordListResultFactory());

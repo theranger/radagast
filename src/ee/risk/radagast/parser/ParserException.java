@@ -18,14 +18,8 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.valence.bayes;
+package ee.risk.radagast.parser;
 
-import ee.risk.radagast.processor.TokenProcessor;
-
-import java.io.IOException;
-
-public class ValenceBayesProcessor extends TokenProcessor<ValenceBayesResult> {
-	public ValenceBayesProcessor(String trainingCorpusFile) throws IOException {
-		super(new BayesClassifierFactory(trainingCorpusFile), new BayesResultFactory());
-	}
+public class ParserException extends Exception {
+	public ParserException(String message) { super(message); }
 }

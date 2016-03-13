@@ -18,14 +18,27 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.valence.bayes;
+package ee.risk.radagast.processor;
 
-import ee.risk.radagast.processor.TokenProcessor;
+import ee.risk.radagast.classifier.EntryClassifier;
+import ee.risk.radagast.model.Entry;
+import ee.risk.radagast.result.EntryResult;
+import ee.risk.radagast.result.EntryResultFactory;
 
-import java.io.IOException;
+public abstract class EntryProcessor<R extends EntryResult> {
 
-public class ValenceBayesProcessor extends TokenProcessor<ValenceBayesResult> {
-	public ValenceBayesProcessor(String trainingCorpusFile) throws IOException {
-		super(new BayesClassifierFactory(trainingCorpusFile), new BayesResultFactory());
+	private final EntryResultFactory<R> entryResultFactory;
+	private final EntryClassifier<R> entryClassifier;
+
+	public EntryProcessor(EntryClassifier<R> entryClassifier, EntryResultFactory<R> entryResultFactory) {
+		this.entryClassifier = entryClassifier;
+		this.entryResultFactory = entryResultFactory;
+	}
+
+	public void process(Entry entry) {
+		EntryResult<R> result = entryResultFactory.createEntryResult();
+
+		entryClassifier.classify(entry, result);
+		entry.addResult(result);
 	}
 }

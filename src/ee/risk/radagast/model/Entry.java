@@ -20,12 +20,25 @@
 
 package ee.risk.radagast.model;
 
+import ee.risk.radagast.result.EntryResult;
 import ee.risk.radagast.tokenizer.Corpus;
+
+import java.util.ArrayList;
 
 public class Entry {
 	private Corpus content;
 	private Corpus title;
 	private String name;
+
+	private ArrayList<EntryResult<? extends EntryResult>> results = new ArrayList<>();
+
+	public ArrayList<EntryResult<? extends EntryResult>> getResults() {
+		return results;
+	}
+
+	public void addResult(EntryResult<? extends EntryResult> result) {
+		results.add(result);
+	}
 
 	public Corpus getContent() {
 		return content;

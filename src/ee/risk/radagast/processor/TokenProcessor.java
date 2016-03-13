@@ -30,12 +30,12 @@ import ee.risk.radagast.tokenizer.Sentence;
 import ee.risk.radagast.tokenizer.Word;
 
 @SuppressWarnings("unchecked")
-public abstract class Processor<R extends Result> {
+public abstract class TokenProcessor<R extends Result> {
 
 	private final ResultFactory<R> resultFactory;
 	private final ClassifierFactory<R> classifierFactory;
 
-	protected Processor(ClassifierFactory<R> classifierFactory, ResultFactory<R> resultFactory) {
+	public TokenProcessor(ClassifierFactory<R> classifierFactory, ResultFactory<R> resultFactory) {
 		this.classifierFactory = classifierFactory;
 		this.resultFactory = resultFactory;
 	}
