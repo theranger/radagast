@@ -52,7 +52,6 @@ class Radagast {
 			valenceBayesProcessor.process(corpus);
 
 			System.out.println(entry);
-			corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
 			System.out.println(entry.getResult().toString());
 			System.out.println();
 			System.out.println();

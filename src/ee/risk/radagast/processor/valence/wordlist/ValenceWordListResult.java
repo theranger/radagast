@@ -22,14 +22,15 @@ package ee.risk.radagast.processor.valence.wordlist;
 
 import ee.risk.radagast.lib.CountMap;
 import ee.risk.radagast.log.Log;
+import ee.risk.radagast.model.ReducedResult;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
 
-public class ValenceWordListResult<T extends Token> implements Result<T, ValenceWordListResult> {
-	public enum Valence { POSITIVE, NEGATIVE, EXTREME, MIXED, NEUTRAL }
+class ValenceWordListResult<T extends Token> implements Result<T, ValenceWordListResult> {
+	enum Valence { POSITIVE, NEGATIVE, EXTREME, MIXED, NEUTRAL }
 
-	protected int wordCount;
-	protected CountMap<Valence> values = new CountMap<>(Valence.class);
+	int wordCount;
+	CountMap<Valence> values = new CountMap<>(Valence.class);
 	protected Log log = Log.getLogger(Log.Level.DEBUG);
 
 	@Override
@@ -45,11 +46,21 @@ public class ValenceWordListResult<T extends Token> implements Result<T, Valence
 	}
 
 	@Override
-	public void reduce(Result result) {
+	public void reduce(ReducedResult result) {
+		values.getMax().forEach((valence, count) -> {
+			switch (valence) {
+				case POSITIVE:
+					result.setValue(result.getValue() + count);
+					break;
 
+				case NEGATIVE:
+					result.setValue(result.getValue() - count);
+					break;
+			}
+		});
 	}
 
-	public void setWordCount(int wordCount) {
+	void setWordCount(int wordCount) {
 		this.wordCount = wordCount;
 	}
 

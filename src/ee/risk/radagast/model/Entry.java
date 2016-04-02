@@ -65,11 +65,24 @@ public class Entry {
 	}
 
 	public ReducedResult getResult() {
-		return getResult(new ReducedResult());
+		ReducedResult reducedResult = new ReducedResult();
+
+		getContentResult(reducedResult);
+		getResult(reducedResult);
+		return reducedResult;
 	}
 
-	public ReducedResult getResult(ReducedResult reducedResult) {
+	private ReducedResult getResult(ReducedResult reducedResult) {
 		results.forEach(entryResult -> entryResult.reduce(reducedResult));
+		return reducedResult;
+	}
+
+	public ReducedResult getContentResult() {
+		return getContentResult(new ReducedResult());
+	}
+
+	private ReducedResult getContentResult(ReducedResult reducedResult) {
+		content.getResults().forEach(corpusResult -> corpusResult.reduce(reducedResult));
 		return reducedResult;
 	}
 
