@@ -23,7 +23,6 @@ package ee.risk.radagast.processor.reputation;
 import ee.risk.radagast.classifier.EntryClassifier;
 import ee.risk.radagast.model.Entry;
 import ee.risk.radagast.parser.ParserException;
-import ee.risk.radagast.result.EntryResult;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -31,11 +30,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ReputationClassifier implements EntryClassifier<ReputationResult> {
+class ReputationClassifier implements EntryClassifier<ReputationResult> {
 
-	Map<String, Integer> reputationMap = new HashMap<>();
+	private Map<String, Integer> reputationMap = new HashMap<>();
 
-	public ReputationClassifier(String userListFile) throws IOException, ParserException {
+	ReputationClassifier(String userListFile) throws IOException, ParserException {
 		String line;
 
 		try (BufferedReader bufferedReader = new BufferedReader(new FileReader(userListFile))) {
@@ -52,7 +51,7 @@ public class ReputationClassifier implements EntryClassifier<ReputationResult> {
 	}
 
 	@Override
-	public void classify(Entry entry, EntryResult<ReputationResult> entryResult) {
+	public void classify(Entry entry, ReputationResult entryResult) {
 		ReputationResult r = (ReputationResult) entryResult;
 		r.setValue(reputationMap.getOrDefault(entry.getName(), 0));
 	}

@@ -20,6 +20,8 @@
 
 package ee.risk.radagast.result;
 
-public interface EntryResult<R extends EntryResult> {
-	void reduce(EntryResult<R> result);
+import ee.risk.radagast.model.ReducedResult;
+
+public interface EntryResult {
+	void reduce(ReducedResult result);
 }

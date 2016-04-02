@@ -18,26 +18,21 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.reputation;
+package ee.risk.radagast.model;
 
-import ee.risk.radagast.model.ReducedResult;
-import ee.risk.radagast.result.EntryResult;
+public class ReducedResult {
+	private double value = 0;
 
-class ReputationResult implements EntryResult {
+	public double getValue() {
+		return value;
+	}
 
-	private int value;
-
-	public void setValue(int value) {
+	public void setValue(double value) {
 		this.value = value;
 	}
 
 	@Override
-	public void reduce(ReducedResult result) {
-		result.setValue(result.getValue() + value);
-	}
-
-	@Override
 	public String toString() {
-		return getClass().getSimpleName() + ": " + value;
+		return String.valueOf(value);
 	}
 }

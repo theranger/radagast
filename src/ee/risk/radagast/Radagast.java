@@ -53,7 +53,7 @@ class Radagast {
 
 			System.out.println(entry);
 			corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
-			entry.getResults().forEach(entryResult -> System.out.println(entryResult.toString()));
+			System.out.println(entry.getResult().toString());
 			System.out.println();
 			System.out.println();
 		}

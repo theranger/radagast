@@ -20,12 +20,11 @@
 
 package ee.risk.radagast.processor.reputation;
 
-import ee.risk.radagast.result.EntryResult;
 import ee.risk.radagast.result.EntryResultFactory;
 
-public class ReputationResultFactory implements EntryResultFactory<ReputationResult> {
+class ReputationResultFactory implements EntryResultFactory<ReputationResult> {
 	@Override
-	public EntryResult<ReputationResult> createEntryResult() {
+	public ReputationResult createEntryResult() {
 		return new ReputationResult();
 	}
 }

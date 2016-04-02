@@ -24,5 +24,5 @@ import ee.risk.radagast.model.Entry;
 import ee.risk.radagast.result.EntryResult;
 
 public interface EntryClassifier<R extends EntryResult> {
-	void classify(Entry entry, EntryResult<R> entryResult);
+	void classify(Entry entry, R entryResult);
 }
