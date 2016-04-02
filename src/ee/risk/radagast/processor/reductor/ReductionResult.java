@@ -18,9 +18,9 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.model;
+package ee.risk.radagast.processor.reductor;
 
-public class ReducedResult {
+public class ReductionResult {
 	private double value = 0;
 
 	public double getValue() {

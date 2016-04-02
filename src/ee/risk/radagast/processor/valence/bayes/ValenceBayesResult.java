@@ -20,7 +20,7 @@
 
 package ee.risk.radagast.processor.valence.bayes;
 
-import ee.risk.radagast.model.ReducedResult;
+import ee.risk.radagast.processor.reductor.ReductionResult;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
 
@@ -42,7 +42,7 @@ class ValenceBayesResult<T extends Token> implements Result<T, ValenceBayesResul
 	}
 
 	@Override
-	public void reduce(ReducedResult result) {
+	public void reduce(ReductionResult result) {
 		result.setValue(result.getValue() + value);
 	}
 

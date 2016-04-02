@@ -64,28 +64,6 @@ public class Entry {
 		this.name = name;
 	}
 
-	public ReducedResult getResult() {
-		ReducedResult reducedResult = new ReducedResult();
-
-		getContentResult(reducedResult);
-		getResult(reducedResult);
-		return reducedResult;
-	}
-
-	private ReducedResult getResult(ReducedResult reducedResult) {
-		results.forEach(entryResult -> entryResult.reduce(reducedResult));
-		return reducedResult;
-	}
-
-	public ReducedResult getContentResult() {
-		return getContentResult(new ReducedResult());
-	}
-
-	private ReducedResult getContentResult(ReducedResult reducedResult) {
-		content.getResults().forEach(corpusResult -> corpusResult.reduce(reducedResult));
-		return reducedResult;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

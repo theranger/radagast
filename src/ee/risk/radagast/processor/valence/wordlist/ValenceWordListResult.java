@@ -22,7 +22,7 @@ package ee.risk.radagast.processor.valence.wordlist;
 
 import ee.risk.radagast.lib.CountMap;
 import ee.risk.radagast.log.Log;
-import ee.risk.radagast.model.ReducedResult;
+import ee.risk.radagast.processor.reductor.ReductionResult;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
 
@@ -46,7 +46,7 @@ class ValenceWordListResult<T extends Token> implements Result<T, ValenceWordLis
 	}
 
 	@Override
-	public void reduce(ReducedResult result) {
+	public void reduce(ReductionResult result) {
 		values.getMax().forEach((valence, count) -> {
 			switch (valence) {
 				case POSITIVE:

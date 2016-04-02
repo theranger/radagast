@@ -20,11 +20,11 @@
 
 package ee.risk.radagast.result;
 
-import ee.risk.radagast.model.ReducedResult;
+import ee.risk.radagast.processor.reductor.ReductionResult;
 import ee.risk.radagast.tokenizer.Token;
 
 public interface Result<T extends Token, R extends Result> {
 	<S extends Token> void aggregate(T token, S child, Result<S, R> result);
 	void onPostAggregate();
-	void reduce(ReducedResult result);
+	void reduce(ReductionResult result);
 }
