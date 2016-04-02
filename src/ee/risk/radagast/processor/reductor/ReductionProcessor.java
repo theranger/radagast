@@ -27,6 +27,7 @@ public class ReductionProcessor {
 		ReductionResult reductionResult = new ReductionResult();
 
 		getContentResult(entry, reductionResult);
+		getTitleResult(entry, reductionResult);
 		getEntryResult(entry, reductionResult);
 		return reductionResult;
 	}
@@ -35,17 +36,35 @@ public class ReductionProcessor {
 		return getEntryResult(entry, new ReductionResult());
 	}
 
+	public ReductionResult getTitleResult(Entry entry) {
+		return getTitleResult(entry, new ReductionResult());
+	}
+
 	public ReductionResult getContentResult(Entry entry) {
 		return getContentResult(entry, new ReductionResult());
 	}
 
 	private ReductionResult getEntryResult(Entry entry, ReductionResult reductionResult) {
-		entry.getResults().forEach(entryResult -> entryResult.reduce(reductionResult));
+		try {
+			entry.getResults().forEach(entryResult -> entryResult.reduce(reductionResult));
+		}
+		catch (NullPointerException ignored) {}
+		return reductionResult;
+	}
+
+	private ReductionResult getTitleResult(Entry entry, ReductionResult reductionResult) {
+		try {
+			entry.getTitle().getResults().forEach(corpusResult -> corpusResult.reduce(reductionResult));
+		}
+		catch (NullPointerException ignored) {}
 		return reductionResult;
 	}
 
 	private ReductionResult getContentResult(Entry entry, ReductionResult reductionResult) {
-		entry.getContent().getResults().forEach(corpusResult -> corpusResult.reduce(reductionResult));
+		try {
+			entry.getContent().getResults().forEach(corpusResult -> corpusResult.reduce(reductionResult));
+		}
+		catch (NullPointerException ignored) {}
 		return reductionResult;
 	}
 }
