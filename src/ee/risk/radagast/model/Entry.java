@@ -30,13 +30,13 @@ public class Entry {
 	private Corpus title;
 	private String name;
 
-	private ArrayList<EntryResult<? extends EntryResult>> results = new ArrayList<>();
+	private ArrayList<EntryResult> results = new ArrayList<>();
 
-	public ArrayList<EntryResult<? extends EntryResult>> getResults() {
+	public ArrayList<EntryResult> getResults() {
 		return results;
 	}
 
-	public void addResult(EntryResult<? extends EntryResult> result) {
+	public void addResult(EntryResult result) {
 		results.add(result);
 	}
 

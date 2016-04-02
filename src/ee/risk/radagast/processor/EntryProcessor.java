@@ -36,7 +36,7 @@ public abstract class EntryProcessor<R extends EntryResult> {
 	}
 
 	public void process(Entry entry) {
-		EntryResult<R> result = entryResultFactory.createEntryResult();
+		R result = entryResultFactory.createEntryResult();
 
 		entryClassifier.classify(entry, result);
 		entry.addResult(result);

@@ -20,12 +20,13 @@
 
 package ee.risk.radagast.processor.valence.bayes;
 
+import ee.risk.radagast.processor.reductor.ReductionResult;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
 
-public class ValenceBayesResult<T extends Token> implements Result<T, ValenceBayesResult> {
-	public float value = 0f;
-	public String category;
+class ValenceBayesResult<T extends Token> implements Result<T, ValenceBayesResult> {
+	public double value = 0.0;
+	String category;
 
 	@Override
 	public <S extends Token> void aggregate(T token, S child, Result<S, ValenceBayesResult> result) {
@@ -41,8 +42,8 @@ public class ValenceBayesResult<T extends Token> implements Result<T, ValenceBay
 	}
 
 	@Override
-	public void reduce(Result result) {
-
+	public void reduce(ReductionResult result) {
+		result.setValue(result.getValue() + value);
 	}
 
 	@Override

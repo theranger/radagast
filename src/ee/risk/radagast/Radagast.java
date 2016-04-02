@@ -23,6 +23,7 @@ package ee.risk.radagast;
 import ee.risk.radagast.model.Entry;
 import ee.risk.radagast.parser.ParserException;
 import ee.risk.radagast.parser.TextFileParser;
+import ee.risk.radagast.processor.reductor.ReductionProcessor;
 import ee.risk.radagast.processor.reputation.ReputationProcessor;
 import ee.risk.radagast.processor.valence.bayes.ValenceBayesProcessor;
 import ee.risk.radagast.processor.valence.wordlist.ValenceWordListProcessor;
@@ -42,6 +43,7 @@ class Radagast {
 		ValenceWordListProcessor valenceWordListProcessor = new ValenceWordListProcessor("lib/valence/sqnad.csv");
 		ValenceBayesProcessor valenceBayesProcessor = new ValenceBayesProcessor("lib/valence/korpus.csv");
 		ReputationProcessor reputationProcessor = new ReputationProcessor("data/reputation.txt");
+		ReductionProcessor reductionProcessor = new ReductionProcessor();
 
 		Entry entry;
 		while ((entry = textFileParser.parse()) != null) {
@@ -52,8 +54,7 @@ class Radagast {
 			valenceBayesProcessor.process(corpus);
 
 			System.out.println(entry);
-			corpus.getResults().forEach(corpusResult -> System.out.println(corpusResult.toString()));
-			entry.getResults().forEach(entryResult -> System.out.println(entryResult.toString()));
+			System.out.println(reductionProcessor.reduce(entry));
 			System.out.println();
 			System.out.println();
 		}

@@ -20,9 +20,10 @@
 
 package ee.risk.radagast.processor.reputation;
 
+import ee.risk.radagast.processor.reductor.ReductionResult;
 import ee.risk.radagast.result.EntryResult;
 
-public class ReputationResult implements EntryResult<ReputationResult> {
+class ReputationResult implements EntryResult {
 
 	private int value;
 
@@ -31,8 +32,8 @@ public class ReputationResult implements EntryResult<ReputationResult> {
 	}
 
 	@Override
-	public void reduce(EntryResult<ReputationResult> result) {
-
+	public void reduce(ReductionResult result) {
+		result.setValue(result.getValue() + value);
 	}
 
 	@Override

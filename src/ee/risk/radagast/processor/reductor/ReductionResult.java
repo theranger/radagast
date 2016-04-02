@@ -18,10 +18,21 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.result;
+package ee.risk.radagast.processor.reductor;
 
-import ee.risk.radagast.processor.reductor.ReductionResult;
+public class ReductionResult {
+	private double value = 0;
 
-public interface EntryResult {
-	void reduce(ReductionResult result);
+	public double getValue() {
+		return value;
+	}
+
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(value);
+	}
 }

@@ -21,5 +21,5 @@
 package ee.risk.radagast.result;
 
 public interface EntryResultFactory<R extends EntryResult> {
-	EntryResult<R> createEntryResult();
+	R createEntryResult();
 }
