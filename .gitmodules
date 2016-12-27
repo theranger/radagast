@@ -1,7 +1,7 @@
 [submodule "lib/Java-Naive-Bayes-Classifier"]
 	path = lib/Java-Naive-Bayes-Classifier
-	url = git@github.com:theranger/Java-Naive-Bayes-Classifier.git
+	url = https://github.com/theranger/Java-Naive-Bayes-Classifier.git
 [submodule "lib/valence"]
 	path = lib/valence
-	url = git@github.com:theranger/valence.git
+	url = https://github.com/theranger/valence.git
 	branch = dev
