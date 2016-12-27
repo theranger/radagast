@@ -23,6 +23,7 @@ package ee.risk.radagast;
 import ee.risk.radagast.model.Entry;
 import ee.risk.radagast.parser.ParserException;
 import ee.risk.radagast.parser.TextFileParser;
+import ee.risk.radagast.processor.morphology.MorphologyProcessor;
 import ee.risk.radagast.processor.reductor.ReductionProcessor;
 import ee.risk.radagast.processor.reputation.ReputationProcessor;
 import ee.risk.radagast.processor.valence.bayes.ValenceBayesProcessor;
@@ -40,6 +41,7 @@ class Radagast {
 		}
 
 		TextFileParser textFileParser = new TextFileParser(args[0]);
+		MorphologyProcessor morphologyProcessor = new MorphologyProcessor("lib/vabamorf/bin/et.dct", "lib/vabamorf/bin/et3.dct");
 		ValenceWordListProcessor valenceWordListProcessor = new ValenceWordListProcessor("lib/valence/sqnad.csv");
 		ValenceBayesProcessor valenceBayesProcessor = new ValenceBayesProcessor("lib/valence/korpus.csv");
 		ReputationProcessor reputationProcessor = new ReputationProcessor("data/reputation.txt");
@@ -50,6 +52,7 @@ class Radagast {
 			reputationProcessor.process(entry);
 
 			Corpus corpus = entry.getContent();
+			morphologyProcessor.process(corpus);
 			valenceWordListProcessor.process(corpus);
 			valenceBayesProcessor.process(corpus);
 
