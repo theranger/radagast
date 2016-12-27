@@ -5,3 +5,6 @@
 	path = lib/valence
 	url = https://github.com/theranger/valence.git
 	branch = dev
+[submodule "lib/vabamorf"]
+	path = lib/vabamorf
+	url = https://github.com/theranger/vabamorf.git
