@@ -3,6 +3,7 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/Java-Naive-Bayes-Classifier" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/lib/vabamorf" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/valence" vcs="Git" />
   </component>
 </project>
