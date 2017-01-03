@@ -40,7 +40,7 @@ class Radagast {
 			return;
 		}
 
-		TextFileParser textFileParser = new TextFileParser(args[0]);
+		TextFileParser textFileParser = new TextFileParser("data/entries1.txt");
 		MorphologyProcessor morphologyProcessor = new MorphologyProcessor("lib/vabamorf/bin/et.dct", "lib/vabamorf/bin/et3.dct");
 		ValenceWordListProcessor valenceWordListProcessor = new ValenceWordListProcessor("lib/valence/sqnad.csv");
 		ValenceBayesProcessor valenceBayesProcessor = new ValenceBayesProcessor("lib/valence/korpus.csv");

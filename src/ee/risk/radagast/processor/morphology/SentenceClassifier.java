@@ -42,6 +42,8 @@ public class SentenceClassifier implements Classifier<Sentence, MorphologyResult
 	public void classify(Sentence token, Result<Sentence, MorphologyResult> result) {
 		try {
 			ee.risk.vabamorf.model.Sentence vabamorfSentence = jVabamorf.parseSentence(token.getValue());
+			if (vabamorfSentence.getWords() == null) return;
+
 			vabamorfSentence.getWords().forEach( word -> {
 				log.debug("Found word: %s", word.getData());
 			});
