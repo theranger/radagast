@@ -1,3 +1,4 @@
 out/
+build/
 workspace.xml
 *.log
