@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/radagast.iml" filepath="$PROJECT_DIR$/radagast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/radagast.iml" filepath="$PROJECT_DIR$/.idea/modules/radagast.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/radagast_main.iml" filepath="$PROJECT_DIR$/.idea/modules/radagast_main.iml" group="radagast" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/radagast_test.iml" filepath="$PROJECT_DIR$/.idea/modules/radagast_test.iml" group="radagast" />
     </modules>
   </component>
 </project>
