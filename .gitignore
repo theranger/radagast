@@ -1,4 +1,5 @@
 out/
 build/
-workspace.xml
+.idea/workspace.xml
+.idea/libraries
 *.log
