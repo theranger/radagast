@@ -10,8 +10,18 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="radagast_main" />
+    <orderEntry type="library" name="Gradle: org.mapdb:mapdb:3.0.2" level="project" />
     <orderEntry type="library" name="Gradle: junit:junit:4.11" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-stdlib:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.collections:eclipse-collections-api:7.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.collections:eclipse-collections:7.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.eclipse.collections:eclipse-collections-forkjoin:7.1.0" level="project" />
+    <orderEntry type="library" name="Gradle: com.google.guava:guava:19.0" level="project" />
+    <orderEntry type="library" name="Gradle: net.jpountz.lz4:lz4:1.3.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.mapdb:elsa:3.0.0-M5" level="project" />
     <orderEntry type="library" name="Gradle: org.hamcrest:hamcrest-core:1.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.jetbrains.kotlin:kotlin-runtime:1.0.2" level="project" />
+    <orderEntry type="library" name="Gradle: net.jcip:jcip-annotations:1.0" level="project" />
   </component>
   <component name="TestModuleProperties" production-module="radagast_main" />
 </module>
