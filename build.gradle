@@ -3,12 +3,21 @@ version '0.1.0'
 
 apply plugin: 'java'
 
-sourceCompatibility = 1.5
+sourceCompatibility = 1.8
+
+sourceSets {
+	main {
+		java {
+			srcDirs 'lib/Java-Naive-Bayes-Classifier/src'
+			srcDirs 'lib/vabamorf/java/src'
+		}
+	}
+}
 
 repositories {
-    mavenCentral()
+	mavenCentral()
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.11'
+	testCompile group: 'junit', name: 'junit', version: '4.11'
 }
