@@ -1,7 +1,7 @@
 /*
  *     Radagast is a classification framework for user submitted textual content.
  *
- *     Copyright (C) 2016 by ranger
+ *     Copyright (C) 2017 by ranger
  *     https://github.com/theranger/radagast
  *
  *     This program is free software: you can redistribute it and/or modify

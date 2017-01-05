@@ -1,7 +1,7 @@
 /*
  *     Radagast is a classification framework for user submitted textual content.
  *
- *     Copyright (C) 2016 by ranger
+ *     Copyright (C) 2017 by ranger
  *     https://github.com/theranger/radagast
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -44,9 +44,8 @@ public class SentenceClassifier implements Classifier<Sentence, MorphologyResult
 			ee.risk.vabamorf.model.Sentence vabamorfSentence = jVabamorf.parseSentence(token.getValue());
 			if (vabamorfSentence.getWords() == null) return;
 
-			vabamorfSentence.getWords().forEach( word -> {
-				log.debug("Found word: %s", word.getData());
-			});
+			MorphologySentenceResult sentenceResult = (MorphologySentenceResult) result;
+			vabamorfSentence.getWords().forEach(sentenceResult::addMorphologyWord);
 		}
 		catch (LinguisticException ex) {
 			log.debug("Linguistics error: %s", ex.getMessage());

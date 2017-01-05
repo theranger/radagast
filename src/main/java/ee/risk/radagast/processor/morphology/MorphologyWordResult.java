@@ -21,30 +21,20 @@
 package ee.risk.radagast.processor.morphology;
 
 import ee.risk.radagast.result.Result;
-import ee.risk.radagast.result.ResultFactory;
-import ee.risk.radagast.tokenizer.Corpus;
-import ee.risk.radagast.tokenizer.Paragraph;
-import ee.risk.radagast.tokenizer.Sentence;
+import ee.risk.radagast.tokenizer.Token;
 import ee.risk.radagast.tokenizer.Word;
 
-public class MorphologyResultFactory implements ResultFactory<MorphologyResult> {
-	@Override
-	public Result<Word, MorphologyResult> createWordResult() {
-		return new MorphologyWordResult();
-	}
+public class MorphologyWordResult extends MorphologyResult<Word> {
+
+	private String root;
 
 	@Override
-	public Result<Sentence, MorphologyResult> createSentenceResult() {
-		return new MorphologySentenceResult();
+	public <S extends Token> void aggregate(Word word, S child, Result<S, MorphologyResult> result) {
+
 	}
 
-	@Override
-	public Result<Paragraph, MorphologyResult> createParagraphResult() {
-		return new MorphologyResult<>();
+	void setRoot(String root) {
+		this.root = root;
 	}
 
-	@Override
-	public Result<Corpus, MorphologyResult> createCorpusResult() {
-		return new MorphologyResult<>();
-	}
 }

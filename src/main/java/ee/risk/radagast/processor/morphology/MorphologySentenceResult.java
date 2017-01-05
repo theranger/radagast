@@ -21,30 +21,31 @@
 package ee.risk.radagast.processor.morphology;
 
 import ee.risk.radagast.result.Result;
-import ee.risk.radagast.result.ResultFactory;
-import ee.risk.radagast.tokenizer.Corpus;
-import ee.risk.radagast.tokenizer.Paragraph;
 import ee.risk.radagast.tokenizer.Sentence;
-import ee.risk.radagast.tokenizer.Word;
+import ee.risk.radagast.tokenizer.Token;
+import ee.risk.vabamorf.model.MorphInfo;
+import ee.risk.vabamorf.model.Word;
 
-public class MorphologyResultFactory implements ResultFactory<MorphologyResult> {
+import java.util.ArrayList;
+import java.util.List;
+
+public class MorphologySentenceResult extends MorphologyResult<Sentence> {
+	private ArrayList<Word> morphologyWords = new ArrayList<>();
+
 	@Override
-	public Result<Word, MorphologyResult> createWordResult() {
-		return new MorphologyWordResult();
+	public <S extends Token> void aggregate(Sentence sentence, S child, Result<S, MorphologyResult> result) {
+		morphologyWords.forEach(word -> {
+			if (!child.getValue().equalsIgnoreCase(word.getData())) return;
+			saveMorphInfo(word.getMorphInfo(), (MorphologyWordResult) result);
+		});
 	}
 
-	@Override
-	public Result<Sentence, MorphologyResult> createSentenceResult() {
-		return new MorphologySentenceResult();
+	void addMorphologyWord(Word word) {
+		morphologyWords.add(word);
 	}
 
-	@Override
-	public Result<Paragraph, MorphologyResult> createParagraphResult() {
-		return new MorphologyResult<>();
-	}
-
-	@Override
-	public Result<Corpus, MorphologyResult> createCorpusResult() {
-		return new MorphologyResult<>();
+	private void saveMorphInfo(List<MorphInfo> morphInfos, MorphologyWordResult result) {
+		if (morphInfos.size() != 1) return;
+		morphInfos.forEach(morphInfo -> result.setRoot(morphInfo.getRoot()));
 	}
 }
