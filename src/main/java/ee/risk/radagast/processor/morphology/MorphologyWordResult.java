@@ -20,21 +20,72 @@
 
 package ee.risk.radagast.processor.morphology;
 
-import ee.risk.radagast.result.Result;
-import ee.risk.radagast.tokenizer.Token;
 import ee.risk.radagast.tokenizer.Word;
+import org.jetbrains.annotations.Nullable;
 
 public class MorphologyWordResult extends MorphologyResult<Word> {
 
-	private String root;
+	public enum Type {
+		ADJECTIVE("A"), VERB("V"), NOUN("N"), UNKNOWN("Z");
 
-	@Override
-	public <S extends Token> void aggregate(Word word, S child, Result<S, MorphologyResult> result) {
+		private final String value;
 
+		Type(final String value) {
+			this.value = value;
+		}
+
+		static Type parseFrom(String name) {
+			if (name.equalsIgnoreCase("A")) return ADJECTIVE;
+			if (name.equalsIgnoreCase("V")) return VERB;
+			return UNKNOWN;
+		}
 	}
 
-	void setRoot(String root) {
+	private String value;
+	private String root;
+	private Type type = Type.UNKNOWN;
+	private int count = 0;
+
+	public MorphologyWordResult copyFrom(@Nullable MorphologyWordResult result) {
+		if (result == null) return this;
+		if (root != null && root.equalsIgnoreCase(result.root)) return this;
+		if (type != Type.UNKNOWN && type != result.type) return this;
+
+		root = result.root;
+		type = result.type;
+		count += result.count;
+		return this;
+	}
+
+	public String getRoot() {
+		return root;
+	}
+
+	public void setRoot(String root) {
 		this.root = root;
 	}
 
+	public Type getType() {
+		return type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public String getValue() {
+		return value;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
 }

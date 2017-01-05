@@ -24,10 +24,19 @@ import ee.risk.radagast.processor.reductor.ReductionResult;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Token;
 
+import java.util.HashMap;
+
 public class MorphologyResult<T extends Token> implements Result<T, MorphologyResult> {
+
+	HashMap<String, MorphologyWordResult> wordResults = new HashMap<>();
+
 	@Override
 	public <S extends Token> void aggregate(T token, S child, Result<S, MorphologyResult> result) {
+		HashMap<String, MorphologyWordResult> childResults = ((MorphologyResult) result).wordResults;
 
+		childResults.forEach((key, value) -> {
+			wordResults.put(value.getRoot(), wordResults.getOrDefault(value.getRoot(), new MorphologyWordResult()).copyFrom(value));
+		});
 	}
 
 	@Override
@@ -38,5 +47,9 @@ public class MorphologyResult<T extends Token> implements Result<T, MorphologyRe
 	@Override
 	public void reduce(ReductionResult result) {
 
+	}
+
+	public HashMap<String, MorphologyWordResult> getWordResults() {
+		return wordResults;
 	}
 }

@@ -26,26 +26,26 @@ import ee.risk.radagast.tokenizer.Token;
 import ee.risk.vabamorf.model.MorphInfo;
 import ee.risk.vabamorf.model.Word;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MorphologySentenceResult extends MorphologyResult<Sentence> {
-	private ArrayList<Word> morphologyWords = new ArrayList<>();
 
 	@Override
 	public <S extends Token> void aggregate(Sentence sentence, S child, Result<S, MorphologyResult> result) {
-		morphologyWords.forEach(word -> {
-			if (!child.getValue().equalsIgnoreCase(word.getData())) return;
-			saveMorphInfo(word.getMorphInfo(), (MorphologyWordResult) result);
-		});
+		if (!(child instanceof ee.risk.radagast.tokenizer.Word)) return;
+
+		((MorphologyWordResult) result).copyFrom(wordResults.get(child.getValue()));
 	}
 
 	void addMorphologyWord(Word word) {
-		morphologyWords.add(word);
-	}
+		List<MorphInfo> morphInfos = word.getMorphInfo();
+		if (morphInfos == null || morphInfos.size() != 1) return;
 
-	private void saveMorphInfo(List<MorphInfo> morphInfos, MorphologyWordResult result) {
-		if (morphInfos.size() != 1) return;
-		morphInfos.forEach(morphInfo -> result.setRoot(morphInfo.getRoot()));
+		morphInfos.forEach(morphInfo -> {
+			MorphologyWordResult wordResult = new MorphologyWordResult();
+			wordResult.setRoot(morphInfo.getRoot());
+			wordResult.setType(MorphologyWordResult.Type.parseFrom(morphInfo.getPos()));
+			wordResults.put(word.getData().toLowerCase().toLowerCase(), wordResult);
+		});
 	}
 }
