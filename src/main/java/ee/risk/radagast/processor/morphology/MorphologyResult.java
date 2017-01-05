@@ -46,7 +46,7 @@ public class MorphologyResult<T extends Token> implements Result<T, MorphologyRe
 
 	@Override
 	public void reduce(ReductionResult result) {
-
+		result.setLexicalEntries(wordResults);
 	}
 
 	public HashMap<String, MorphologyWordResult> getWordResults() {

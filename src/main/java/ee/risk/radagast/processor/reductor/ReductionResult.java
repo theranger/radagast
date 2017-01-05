@@ -1,7 +1,7 @@
 /*
  *     Radagast is a classification framework for user submitted textual content.
  *
- *     Copyright (C) 2016 by ranger
+ *     Copyright (C) 2017 by ranger
  *     https://github.com/theranger/radagast
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -20,8 +20,21 @@
 
 package ee.risk.radagast.processor.reductor;
 
+import ee.risk.radagast.processor.morphology.MorphologyWordResult;
+
+import java.util.HashMap;
+
 public class ReductionResult {
 	private double value = 0;
+	private HashMap<String, MorphologyWordResult> lexicalEntries;
+
+	public HashMap<String, MorphologyWordResult> getLexicalEntries() {
+		return lexicalEntries;
+	}
+
+	public void setLexicalEntries(HashMap<String, MorphologyWordResult> lexicalEntries) {
+		this.lexicalEntries = lexicalEntries;
+	}
 
 	public double getValue() {
 		return value;
