@@ -20,40 +20,24 @@
 
 package ee.risk.radagast.processor.morphology;
 
+import ee.risk.radagast.result.LexicalResult;
 import ee.risk.radagast.tokenizer.Word;
 import org.jetbrains.annotations.Nullable;
 
-public class MorphologyWordResult extends MorphologyResult<Word> {
+public class MorphologyWordResult extends MorphologyResult<Word> implements LexicalResult {
 
-	public enum Type {
-		ADJECTIVE("A"), VERB("V"), NOUN("N"), UNKNOWN("Z");
-
-		private final String value;
-
-		Type(final String value) {
-			this.value = value;
-		}
-
-		static Type parseFrom(String name) {
-			if (name.equalsIgnoreCase("A")) return ADJECTIVE;
-			if (name.equalsIgnoreCase("V")) return VERB;
-			return UNKNOWN;
-		}
-	}
-
-	private String value;
 	private String root;
 	private Type type = Type.UNKNOWN;
 	private int count = 0;
 
-	public MorphologyWordResult copyFrom(@Nullable MorphologyWordResult result) {
+	public LexicalResult mergeFrom(@Nullable LexicalResult result) {
 		if (result == null) return this;
-		if (root != null && root.equalsIgnoreCase(result.root)) return this;
-		if (type != Type.UNKNOWN && type != result.type) return this;
+		if (root != null && root.equalsIgnoreCase(result.getRoot())) return this;
+		if (type != Type.UNKNOWN && type != result.getType()) return this;
 
-		root = result.root;
-		type = result.type;
-		count += result.count;
+		root = result.getRoot();
+		type = result.getType();
+		count += result.getCount();
 		return this;
 	}
 
@@ -75,17 +59,5 @@ public class MorphologyWordResult extends MorphologyResult<Word> {
 
 	public int getCount() {
 		return count;
-	}
-
-	public void setCount(int count) {
-		this.count = count;
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
 	}
 }

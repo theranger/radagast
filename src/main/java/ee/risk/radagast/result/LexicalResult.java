@@ -18,41 +18,30 @@
  *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package ee.risk.radagast.processor.reductor;
+package ee.risk.radagast.result;
 
-import ee.risk.radagast.result.LexicalResult;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
+public interface LexicalResult {
 
-public class ReductionResult {
-	private double value = 0;
-	private HashMap<String, LexicalResult> lexicalEntries;
+	enum Type {
+		ADJECTIVE("A"), VERB("V"), NOUN("N"), UNKNOWN("Z");
 
-	public HashMap<String, LexicalResult> getLexicalEntries() {
-		return lexicalEntries;
+		private final String value;
+
+		Type(final String value) {
+			this.value = value;
+		}
+
+		public static Type parseFrom(String name) {
+			if (name.equalsIgnoreCase("A")) return ADJECTIVE;
+			if (name.equalsIgnoreCase("V")) return VERB;
+			return UNKNOWN;
+		}
 	}
 
-	public void setLexicalEntries(HashMap<String, LexicalResult> lexicalEntries) {
-		this.lexicalEntries = lexicalEntries;
-	}
-
-	public double getValue() {
-		return value;
-	}
-
-	public void setValue(double value) {
-		this.value = value;
-	}
-
-	@Override
-	public String toString() {
-		StringBuffer lexicon = new StringBuffer();
-
-		lexicalEntries.forEach((key, value) -> {
-			lexicon.append("\t" + value.getRoot() + " (" + value.getCount() + ")\n");
-		});
-
-
-		return String.valueOf(value) + "\n" + lexicon;
-	}
+	String getRoot();
+	Type getType();
+	int getCount();
+	LexicalResult mergeFrom(@Nullable LexicalResult result);
 }

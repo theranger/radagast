@@ -34,7 +34,7 @@ public class MorphologySentenceResult extends MorphologyResult<Sentence> {
 	public <S extends Token> void aggregate(Sentence sentence, S child, Result<S, MorphologyResult> result) {
 		if (!(child instanceof ee.risk.radagast.tokenizer.Word)) return;
 
-		((MorphologyWordResult) result).copyFrom(wordResults.get(child.getValue()));
+		((MorphologyWordResult) result).mergeFrom(wordResults.get(child.getValue()));
 	}
 
 	void addMorphologyWord(Word word) {
