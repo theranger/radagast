@@ -32,8 +32,11 @@ public class MorphologySentenceResult extends MorphologyResult<Sentence> {
 
 	@Override
 	public <S extends Token> void aggregate(Sentence sentence, S child, Result<S, MorphologyResult> result) {
-		if (!(child instanceof ee.risk.radagast.tokenizer.Word)) return;
+		if (!(result instanceof MorphologyWordResult)) return;
 
+		// If child result is a word result, store appropriate result object inside word token for model completeness.
+		// Usually info should be aggregated from child, but this processor operates at sentence level.
+		// Information must be re-populated back down to the child in this case.
 		((MorphologyWordResult) result).mergeFrom(wordResults.get(child.getValue()));
 	}
 
