@@ -32,7 +32,7 @@ public class MorphologyWordResult extends MorphologyResult<Word> implements Lexi
 
 	public LexicalResult mergeFrom(@Nullable LexicalResult result) {
 		if (result == null) return this;
-		if (root != null && root.equalsIgnoreCase(result.getRoot())) return this;
+		if (root != null && !root.equalsIgnoreCase(result.getRoot())) return this;
 		if (type != Type.UNKNOWN && type != result.getType()) return this;
 
 		root = result.getRoot();
@@ -59,5 +59,9 @@ public class MorphologyWordResult extends MorphologyResult<Word> implements Lexi
 
 	public int getCount() {
 		return count;
+	}
+
+	void setCount(int count) {
+		this.count = count;
 	}
 }
