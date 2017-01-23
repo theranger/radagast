@@ -20,24 +20,44 @@
 
 package ee.risk.radagast.processor.morphology;
 
+import ee.risk.radagast.result.LexicalResult;
 import ee.risk.radagast.result.Result;
 import ee.risk.radagast.tokenizer.Sentence;
 import ee.risk.radagast.tokenizer.Token;
 import ee.risk.vabamorf.model.MorphInfo;
 import ee.risk.vabamorf.model.Word;
 
+import java.util.HashMap;
 import java.util.List;
 
 public class MorphologySentenceResult extends MorphologyResult<Sentence> {
 
+	private HashMap<String, MorphInfo> wordMorphInfos = new HashMap<>();
+
 	@Override
 	public <S extends Token> void aggregate(Sentence sentence, S child, Result<S, MorphologyResult> result) {
 		if (!(result instanceof MorphologyWordResult)) return;
+		MorphInfo morphInfo = wordMorphInfos.get(child.getValue());
 
-		// If child result is a word result, store appropriate result object inside word token for model completeness.
+		// No morphology info found for this word. Do not aggregate further
+		if (morphInfo == null) return;
+
+		// If child result is a word result, fill child result object with data for model completeness.
 		// Usually info should be aggregated from child, but this processor operates at sentence level.
 		// Information must be re-populated back down to the child in this case.
-		((MorphologyWordResult) result).mergeFrom(wordResults.get(child.getValue()));
+		MorphologyWordResult wordResult = ((MorphologyWordResult) result);
+		wordResult.setRoot(morphInfo.getRoot());
+		wordResult.setType(LexicalResult.Type.parseFrom(morphInfo.getPos()));
+		wordResult.setCount(1);
+
+		// Is this lexical root already exists? If not, put in map, otherwise we need to merge info
+		LexicalResult lexicalResult = wordResults.get(morphInfo.getRoot());
+		if (lexicalResult == null) {
+			wordResults.put(morphInfo.getRoot(), wordResult);
+			return;
+		}
+
+		lexicalResult.mergeFrom(wordResult);
 	}
 
 	void addMorphologyWord(Word word) {
@@ -45,10 +65,7 @@ public class MorphologySentenceResult extends MorphologyResult<Sentence> {
 		if (morphInfos == null || morphInfos.size() != 1) return;
 
 		morphInfos.forEach(morphInfo -> {
-			MorphologyWordResult wordResult = new MorphologyWordResult();
-			wordResult.setRoot(morphInfo.getRoot());
-			wordResult.setType(MorphologyWordResult.Type.parseFrom(morphInfo.getPos()));
-			wordResults.put(word.getData().toLowerCase().toLowerCase(), wordResult);
+			wordMorphInfos.put(word.getData().toLowerCase(), morphInfo);
 		});
 	}
 }
