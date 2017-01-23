@@ -25,7 +25,7 @@ import org.jetbrains.annotations.Nullable;
 public interface LexicalResult {
 
 	enum Type {
-		ADJECTIVE("A"), VERB("V"), NOUN("N"), UNKNOWN("Z");
+		ADJECTIVE("A"), VERB("V"), NOUN("N"), PRONOUN("P"), CONJUNCTION("J"), UNKNOWN("Z");
 
 		private final String value;
 
@@ -36,6 +36,8 @@ public interface LexicalResult {
 		public static Type parseFrom(String name) {
 			if (name.equalsIgnoreCase("A")) return ADJECTIVE;
 			if (name.equalsIgnoreCase("V")) return VERB;
+			if (name.equalsIgnoreCase("J")) return CONJUNCTION;
+			if (name.equalsIgnoreCase("P")) return PRONOUN;
 			return UNKNOWN;
 		}
 	}
