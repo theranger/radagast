@@ -51,6 +51,11 @@ public class VocabularyDAO {
 	public void addUser(String word, String user) {
 		List<String> users = getUsers(word);
 		users.add(user);
+		map.put(word, users);
+	}
+
+	public int getSize() {
+		return map.size();
 	}
 
 }
