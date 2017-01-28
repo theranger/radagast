@@ -1,7 +1,7 @@
 /*
  *     Radagast is a classification framework for user submitted textual content.
  *
- *     Copyright (C) 2016 by ranger
+ *     Copyright (C) 2017 by ranger
  *     https://github.com/theranger/radagast
  *
  *     This program is free software: you can redistribute it and/or modify
@@ -20,11 +20,13 @@
 
 package ee.risk.radagast;
 
+import ee.risk.radagast.dao.VocabularyDAO;
 import ee.risk.radagast.model.Entry;
 import ee.risk.radagast.parser.ParserException;
 import ee.risk.radagast.parser.TextFileParser;
 import ee.risk.radagast.processor.morphology.MorphologyProcessor;
 import ee.risk.radagast.processor.reductor.ReductionProcessor;
+import ee.risk.radagast.processor.reductor.ReductionResult;
 import ee.risk.radagast.processor.reputation.ReputationProcessor;
 import ee.risk.radagast.processor.valence.bayes.ValenceBayesProcessor;
 import ee.risk.radagast.processor.valence.wordlist.ValenceWordListProcessor;
@@ -47,6 +49,9 @@ class Radagast {
 		ReputationProcessor reputationProcessor = new ReputationProcessor("data/reputation.txt");
 		ReductionProcessor reductionProcessor = new ReductionProcessor();
 
+		// Databases
+		VocabularyDAO vocabularyDAO = new VocabularyDAO();
+
 		Entry entry;
 		while ((entry = textFileParser.parse()) != null) {
 			reputationProcessor.process(entry);
@@ -55,11 +60,16 @@ class Radagast {
 			morphologyProcessor.process(corpus);
 			valenceWordListProcessor.process(corpus);
 			valenceBayesProcessor.process(corpus);
+			ReductionResult results = reductionProcessor.reduce(entry);
 
 			System.out.println(entry);
-			System.out.println(reductionProcessor.reduce(entry));
+			System.out.println(results);
 			System.out.println();
 			System.out.println();
+
+			// Update databases
+			String name = entry.getName();
+			results.getLexicalEntries().forEach((key, value) -> vocabularyDAO.addUser(key, name));
 		}
 	}
 
