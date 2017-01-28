@@ -36,7 +36,11 @@ public class VocabularyDAO {
 	ConcurrentMap<String, List<String>> map;
 
 	public VocabularyDAO() {
-		DB db = DBMaker.fileDB(DB_FILE).closeOnJvmShutdown().make();
+		this(DB_FILE);
+	}
+
+	public VocabularyDAO(String dbPath) {
+		DB db = DBMaker.fileDB(dbPath).closeOnJvmShutdown().make();
 		map = db.hashMap(DB_ROOT, Serializer.STRING, new StringListSerializer()).createOrOpen();
 	}
 

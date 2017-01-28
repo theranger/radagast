@@ -50,7 +50,7 @@ class Radagast {
 		ReductionProcessor reductionProcessor = new ReductionProcessor();
 
 		// Databases
-		VocabularyDAO vocabularyDAO = new VocabularyDAO();
+		VocabularyDAO vocabularyDAO = new VocabularyDAO("data/vocabulary.db");
 
 		Entry entry;
 		while ((entry = textFileParser.parse()) != null) {
