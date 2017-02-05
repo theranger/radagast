@@ -1,3 +1,6 @@
+About Radagast
+==============
+
 Radagast is a text classification framework for analyzing user submitted content. It is a modular system for processing text entries, decomposing them into tokens and combining results with various metadata associated with original content.
 
 Radagast contains a set of predefined modules that operate at different tokenization levels (e.g. paragraphs, sentences, words), analyze tokens and compute results. Result can either be in a numerical form or suitable quantifiable values.
