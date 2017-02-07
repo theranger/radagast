@@ -22,11 +22,27 @@ group 'ee.risk.radagast'
 version '0.1.0'
 
 apply plugin: 'java'
+apply plugin: 'com.google.protobuf'
+apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.0'
+	}
+}
+
 sourceSets {
 	main {
+		proto {
+			srcDir 'src/main/java/ee/risk/radagast/proto'
+		}
+
 		java {
 			srcDirs 'lib/Java-Naive-Bayes-Classifier/src'
 			srcDirs 'lib/vabamorf/java/src'
@@ -41,4 +57,17 @@ repositories {
 dependencies {
 	compile group: 'com.google.protobuf', name: 'protobuf-java', version: '3.1.0'
 	testCompile group: 'junit', name: 'junit', version: '4.11'
+
+}
+
+protobuf {
+	protoc {
+		artifact = 'com.google.protobuf:protoc:3.0.0'
+	}
+}
+
+idea {
+	module {
+		sourceDirs += file("${protobuf.generatedFilesBaseDir}/main/java")
+	}
 }
