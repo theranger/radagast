@@ -1,0 +1,24 @@
+syntax = "proto3";
+option java_package = "ee.risk.radagast.proto";
+
+// DB containers
+message Dictionary {
+    map<string, Lemma> lemmas = 1;
+}
+
+message Wordbook {
+    map<string, Author> authors = 2;
+}
+
+
+// Entities
+message Lemma {
+    string name = 1;
+    uint32 count = 2;
+    repeated Author authors = 3;
+}
+
+message Author {
+    string name = 1;
+    map<string, Lemma> lemmas = 2;
+}

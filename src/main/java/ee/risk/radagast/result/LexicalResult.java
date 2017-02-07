@@ -20,7 +20,7 @@
 
 package ee.risk.radagast.result;
 
-import org.jetbrains.annotations.Nullable;
+import com.sun.istack.internal.Nullable;
 
 public interface LexicalResult {
 

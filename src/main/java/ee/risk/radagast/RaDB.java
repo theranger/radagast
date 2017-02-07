@@ -22,18 +22,20 @@ package ee.risk.radagast;
 
 import ee.risk.radagast.dao.VocabularyDAO;
 
+import java.io.IOException;
+
 public class RaDB {
 
-	public static void main(String args[]) {
+	public static void main(String args[]) throws IOException {
 		if (args.length < 2) {
 			printHelp();
 			return;
 		}
 
 		if (args[0].equalsIgnoreCase("voc")) {
-			VocabularyDAO vocabularyDAO = new VocabularyDAO("data/vocabulary.db");
-			System.out.println("DB size: " + vocabularyDAO.getSize());
-			System.out.println(vocabularyDAO.getUsers(args[1]));
+			VocabularyDAO vocabularyDAO = new VocabularyDAO("data/dictionary.db", "data/wordbook.db");
+			System.out.println(vocabularyDAO.listAuthors());
+			System.out.println(vocabularyDAO.listLemmas());
 			return;
 		}
 

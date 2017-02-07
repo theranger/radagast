@@ -20,9 +20,9 @@
 
 package ee.risk.radagast.processor.morphology;
 
+import com.sun.istack.internal.Nullable;
 import ee.risk.radagast.result.LexicalResult;
 import ee.risk.radagast.tokenizer.Word;
-import org.jetbrains.annotations.Nullable;
 
 public class MorphologyWordResult extends MorphologyResult<Word> implements LexicalResult {
 

@@ -30,6 +30,7 @@ import ee.risk.radagast.processor.reductor.ReductionResult;
 import ee.risk.radagast.processor.reputation.ReputationProcessor;
 import ee.risk.radagast.processor.valence.bayes.ValenceBayesProcessor;
 import ee.risk.radagast.processor.valence.wordlist.ValenceWordListProcessor;
+import ee.risk.radagast.proto.Vocabulary;
 import ee.risk.radagast.tokenizer.Corpus;
 
 import java.io.IOException;
@@ -50,7 +51,7 @@ class Radagast {
 		ReductionProcessor reductionProcessor = new ReductionProcessor();
 
 		// Databases
-		VocabularyDAO vocabularyDAO = new VocabularyDAO("data/vocabulary.db");
+		VocabularyDAO vocabularyDAO = new VocabularyDAO("data/dictionary.db", "data/wordbook.db");
 
 		Entry entry;
 		while ((entry = textFileParser.parse()) != null) {
@@ -69,8 +70,14 @@ class Radagast {
 
 			// Update databases
 			String name = entry.getName();
-			results.getLexicalEntries().forEach((key, value) -> vocabularyDAO.addUser(key, name));
+			results.getLexicalEntries().forEach((key, value) -> {
+				Vocabulary.Lemma lemma = vocabularyDAO.getLemma(key);
+				Vocabulary.Author author = vocabularyDAO.getAuthor(name);
+				vocabularyDAO.addAuthor(lemma, author);
+			});
 		}
+
+		vocabularyDAO.save();
 	}
 
 	private static void printHelp() {

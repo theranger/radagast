@@ -20,42 +20,72 @@
 
 package ee.risk.radagast.dao;
 
-import ee.risk.radagast.db.StringListSerializer;
-import org.mapdb.DB;
-import org.mapdb.DBMaker;
-import org.mapdb.Serializer;
+import ee.risk.radagast.proto.Vocabulary;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ConcurrentMap;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
 
 public class VocabularyDAO {
-	private static final String DB_FILE = "vocabulary.db";
-	private static final String DB_ROOT = "map";
 
-	ConcurrentMap<String, List<String>> map;
+	private Vocabulary.Dictionary dictionary;
+	private Vocabulary.Wordbook wordbook;
 
-	public VocabularyDAO() {
-		this(DB_FILE);
+	private String dictionaryPath;
+	private String wordbookPath;
+
+	public VocabularyDAO(String dictionaryPath, String wordbookPath) throws IOException {
+		this.dictionaryPath = dictionaryPath;
+		this.wordbookPath = wordbookPath;
+
+		try {
+			dictionary = Vocabulary.Dictionary.parseFrom(new FileInputStream(dictionaryPath));
+			wordbook = Vocabulary.Wordbook.parseFrom(new FileInputStream(wordbookPath));
+		}
+		catch (FileNotFoundException ex) {
+			dictionary = Vocabulary.Dictionary.getDefaultInstance();
+			wordbook = Vocabulary.Wordbook.getDefaultInstance();
+		}
 	}
 
-	public VocabularyDAO(String dbPath) {
-		DB db = DBMaker.fileDB(dbPath).closeOnJvmShutdown().make();
-		map = db.hashMap(DB_ROOT, Serializer.STRING, new StringListSerializer()).createOrOpen();
+	public Collection<Vocabulary.Author> listAuthors() {
+		return wordbook.getAuthorsMap().values();
 	}
 
-	public List<String> getUsers(String word) {
-		return map.getOrDefault(word, new ArrayList<>());
+	public Collection<Vocabulary.Lemma> listLemmas() {
+		return dictionary.getLemmasMap().values();
 	}
 
-	public void addUser(String word, String user) {
-		List<String> users = getUsers(word);
-		users.add(user);
-		map.put(word, users);
+	public Vocabulary.Lemma getLemma(String name) {
+		return dictionary.getLemmasOrDefault(name, Vocabulary.Lemma.newBuilder().setName(name).build());
 	}
 
-	public int getSize() {
-		return map.size();
+	public Vocabulary.Author getAuthor(String name) {
+		return wordbook.getAuthorsOrDefault(name, Vocabulary.Author.newBuilder().setName(name).build());
 	}
 
+	public void addAuthor(Vocabulary.Lemma lemma, Vocabulary.Author author) {
+
+		wordbook = wordbook.toBuilder().putAuthors(
+				author.getName(),
+				author.toBuilder()
+						.putLemmas(lemma.getName(), lemma)
+						.build()
+		).build();
+
+		dictionary = dictionary.toBuilder().putLemmas(
+				lemma.getName(),
+				lemma.toBuilder()
+						.setCount(lemma.getCount() + 1)
+						.addAuthors(author)
+						.build()
+		).build();
+	}
+
+	public void save() throws IOException {
+		dictionary.writeTo(new FileOutputStream(dictionaryPath));
+		wordbook.writeTo(new FileOutputStream(wordbookPath));
+	}
 }
