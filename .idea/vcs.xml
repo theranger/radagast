@@ -2,6 +2,7 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/../radagast.wiki" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/Java-Naive-Bayes-Classifier" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/vabamorf" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/lib/valence" vcs="Git" />
