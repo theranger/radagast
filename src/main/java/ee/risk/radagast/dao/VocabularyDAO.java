@@ -71,7 +71,7 @@ public class VocabularyDAO {
 		wordbook = wordbook.toBuilder().putAuthors(
 				author.getName(),
 				author.toBuilder()
-						.putLemmas(lemma.getName(), lemma)
+						.putLemmas(lemma.getName(), lemma.getCount())
 						.build()
 		).build();
 
@@ -79,7 +79,7 @@ public class VocabularyDAO {
 				lemma.getName(),
 				lemma.toBuilder()
 						.setCount(lemma.getCount() + 1)
-						.addAuthors(author)
+						.addAuthors(author.getName())
 						.build()
 		).build();
 	}
